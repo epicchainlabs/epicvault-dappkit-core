@@ -1,9 +1,6 @@
-<p align="center">
-  <img src="/.github/resources/images/coz.png" width="200px;">
-</p>
 
 <p align="center">
-  Welcome to **EpicVault-DappKit-Core**—the most intuitive and powerful toolkit for developing decentralized applications (dApps) on the EpicChain blockchain.
+  Welcome to <b>EpicVault-DappKit-Core</b> the most intuitive and powerful toolkit for developing decentralized applications (dApps) on the EpicChain blockchain.
   <br/> Proudly created with ❤ by <b>EpicChain Labs</b>
 </p>
 
