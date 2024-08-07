@@ -118,7 +118,7 @@ We extend our sincere gratitude to the developers, contributors, and community m
 
 ## Contact
 
-For further inquiries, feedback, or suggestions, please contact us at [contact@epicchain.io](mailto:contact@epic-chain.org). We value your input and are here to assist with any questions or concerns you may have.
+For further inquiries, feedback, or suggestions, please contact us at [contact@epic-chain.org](mailto:contact@epic-chain.org). We value your input and are here to assist with any questions or concerns you may have.
 
 ---
 
