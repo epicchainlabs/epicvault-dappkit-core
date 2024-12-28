@@ -1,4 +1,4 @@
-# NeonInvoker Arguments
+# EpicVaultInvoker Arguments
 
 For these examples, we are starting from the point where an invoker has already been initialized and there is a
 `contractScriptHash` variable with the correct value.

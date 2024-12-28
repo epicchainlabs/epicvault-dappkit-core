@@ -10,7 +10,7 @@ import {
   BufferArgType,
   StructArgType,
   RpcResponseStackItem,
-} from './Neo3Invoker'
+} from './EpicChainInvoker'
 
 const TypeChecker = {
   isStackTypeAny(item: any): item is AnyArgType {

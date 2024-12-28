@@ -1,6 +1,6 @@
 {
-  "name": "@cityofzion/neon-dappkit",
-  "version": "0.5.1",
+  "name": "@epicchain/epicvault-dappkit",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,13 +11,13 @@
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint .",
     "format": "eslint --fix",
-    "test": "ts-node test/setup-neo-go.ts && ts-mocha --reporter json > ../../mocha-results.json test/**/*.spec.ts",
-    "test-print": "ts-node test/setup-neo-go.ts && ts-mocha test/**/*.spec.ts",
+    "test": "ts-node test/setup-epicchain-go.ts && ts-mocha --reporter json > ../../mocha-results.json test/**/*.spec.ts",
+    "test-print": "ts-node test/setup-epicchain-go.ts && ts-mocha test/**/*.spec.ts",
     "coverage": "nyc pnpm test"
   },
   "dependencies": {
-    "@cityofzion/neon-dappkit-types": "workspace:*",
-    "@cityofzion/neon-js": "5.5.1",
+    "@epicchain/epicvault-dappkit-types": "workspace:*",
+    "@epicchain/epicvault-js": "1.0.1",
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4",
     "randombytes": "^2.1.0",
@@ -27,7 +27,7 @@
     "crypto-browserify": "^3.12.0"
   },
   "devDependencies": {
-    "@cityofzion/neon-core": "5.5.1",
+    "@epicchain/epicvault-core": "1.0.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/adm-zip": "0.5.5",
     "@types/elliptic": "6.4.14",
@@ -49,8 +49,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CityOfZion/neon-dappkit.git",
-    "directory": "packages/neon-dappkit"
+    "url": "https://github.com/epicchainlabs/epicvault-dappkit.git",
+    "directory": "packages/epicvault-dappkit"
   },
   "browser": {
     "stream": "stream-browserify",

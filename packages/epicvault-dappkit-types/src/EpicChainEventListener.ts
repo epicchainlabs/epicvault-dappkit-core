@@ -16,7 +16,7 @@ export interface Neo3EventWithState extends Neo3Event {
 /**
  * The event listener callback
  */
-export type Neo3EventListenerCallback = (event: Neo3EventWithState) => void
+export type EpicChainEventListenerCallback = (event: Neo3EventWithState) => void
 
 /**
  * An interface that defines the stack item format
@@ -29,7 +29,7 @@ export interface Neo3StackItem {
 /**
  * An interface that defines the application log format
  */
-export interface Neo3ApplicationLog {
+export interface EpicChainApplicationLog {
   txid: string
   executions: {
     trigger: string
@@ -50,7 +50,7 @@ export interface Neo3EventListener {
    * @param eventname
    * @param callback
    */
-  addEventListener(contract: string, eventname: string, callback: Neo3EventListenerCallback): void
+  addEventListener(contract: string, eventname: string, callback: EpicChainEventListenerCallback): void
 
   /**
    * Removes an event listener for the specified contract and event name
@@ -58,23 +58,23 @@ export interface Neo3EventListener {
    * @param eventname
    * @param callback
    */
-  removeEventListener(contract: string, eventname: string, callback: Neo3EventListenerCallback): void
+  removeEventListener(contract: string, eventname: string, callback: EpicChainEventListenerCallback): void
 
   /**
    * Waits for the transaction to be completed and returns the application log
    * @param txId id od the transaction
    */
-  waitForApplicationLog(txId: string): Promise<Neo3ApplicationLog>
+  waitForApplicationLog(txId: string): Promise<EpicChainApplicationLog>
 
   /**
    * Checks if the transaction was completed successfully
    * Throws an error if the transaction failed
-   * @param txResult the Neo3ApplicationLog object
+   * @param txResult the EpicChainApplicationLog object
    * @param eventToCheck the Neo3Event object to check if it is present in the application log
    * @param confirmStackTrue if true, checks if the stack contains true as the first element
    */
   confirmTransaction(
-    txResult: Neo3ApplicationLog,
+    txResult: EpicChainApplicationLog,
     eventToCheck?: Neo3Event | undefined,
     confirmStackTrue?: boolean | undefined,
   ): void

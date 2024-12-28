@@ -1,15 +1,15 @@
 import {
-  Neo3ApplicationLog,
+  EpicChainApplicationLog,
   Neo3Event,
   Neo3EventListener,
-  Neo3EventListenerCallback,
+  EpicChainEventListenerCallback,
   Neo3EventWithState,
   Neo3StackItem,
-} from '@cityofzion/neon-dappkit-types'
-import { rpc } from '@cityofzion/neon-js'
-import type * as NeonTypes from '@cityofzion/neon-core'
+} from '@epicchain/epicvault-dappkit-types'
+import { rpc } from '@epicchain/epicvault-js'
+import type * as EpicVaultTypes from '@epicchain/epicvault-core'
 
-export type NeonEventListenerOptions = {
+export type EpicVaultEventListenerOptions = {
   debug?: boolean | undefined
   waitForApplicationLog?:
     | {
@@ -20,23 +20,23 @@ export type NeonEventListenerOptions = {
   waitForEventMs?: number | undefined
 }
 
-export class NeonEventListener implements Neo3EventListener {
-  static MAINNET = 'https://mainnet1.neo.coz.io:443'
-  static TESTNET = 'https://testnet1.neo.coz.io:443'
+export class EpicVaultEventListener implements Neo3EventListener {
+  static MAINNET = 'https://mainnet1-seed.epic-chain.org:10111'
+  static TESTNET = 'https://testnet1-seed.epic-chain.org:20111'
 
   private blockPollingLoopActive = false
-  private listeners = new Map<string, Map<string, Neo3EventListenerCallback[]>>()
+  private listeners = new Map<string, Map<string, EpicChainEventListenerCallback[]>>()
 
-  private readonly rpcClient: NeonTypes.rpc.RPCClient
+  private readonly rpcClient: EpicVaultTypes.rpc.RPCClient
 
   constructor(
     rpcUrl: string,
-    private options: NeonEventListenerOptions | undefined = undefined,
+    private options: EpicVaultEventListenerOptions | undefined = undefined,
   ) {
     this.rpcClient = new rpc.RPCClient(rpcUrl)
   }
 
-  addEventListener(contract: string, eventname: string, callback: Neo3EventListenerCallback): void {
+  addEventListener(contract: string, eventname: string, callback: EpicChainEventListenerCallback): void {
     const listenersOfContract = this.listeners.get(contract)
     if (!listenersOfContract) {
       this.listeners.set(contract, new Map([[eventname, [callback]]]))
@@ -49,7 +49,7 @@ export class NeonEventListener implements Neo3EventListener {
     }
   }
 
-  removeEventListener(contract: string, eventname: string, callback: Neo3EventListenerCallback): void {
+  removeEventListener(contract: string, eventname: string, callback: EpicChainEventListenerCallback): void {
     const listenersOfContract = this.listeners.get(contract)
     if (listenersOfContract) {
       let listenersOfEvent = listenersOfContract.get(eventname)
@@ -89,7 +89,7 @@ export class NeonEventListener implements Neo3EventListener {
     }
   }
 
-  async waitForApplicationLog(txId: string): Promise<Neo3ApplicationLog> {
+  async waitForApplicationLog(txId: string): Promise<EpicChainApplicationLog> {
     const maxAttempts = this.options?.waitForApplicationLog?.maxAttempts ?? 30
     const waitMs = this.options?.waitForApplicationLog?.waitMs ?? 1000
 
@@ -108,12 +108,12 @@ export class NeonEventListener implements Neo3EventListener {
     throw error
   }
 
-  confirmHalt(txResult: Neo3ApplicationLog) {
+  confirmHalt(txResult: EpicChainApplicationLog) {
     if (txResult?.executions[0]?.vmstate !== 'HALT')
       throw new Error('Transaction failed. VMState: ' + txResult?.executions[0]?.vmstate)
   }
 
-  confirmStackTrue(txResult: Neo3ApplicationLog) {
+  confirmStackTrue(txResult: EpicChainApplicationLog) {
     if (
       !txResult ||
       !txResult.executions ||
@@ -129,14 +129,14 @@ export class NeonEventListener implements Neo3EventListener {
     }
   }
 
-  getNotificationState(txResult: Neo3ApplicationLog, eventToCheck: Neo3Event): Neo3EventWithState | undefined {
+  getNotificationState(txResult: EpicChainApplicationLog, eventToCheck: Neo3Event): Neo3EventWithState | undefined {
     return txResult?.executions[0].notifications.find((e) => {
       return e.contract === eventToCheck.contract && e.eventname === eventToCheck.eventname
     })
   }
 
   confirmTransaction(
-    txResult: Neo3ApplicationLog,
+    txResult: EpicChainApplicationLog,
     eventToCheck?: Neo3Event | undefined,
     confirmStackTrue = false,
   ): void {

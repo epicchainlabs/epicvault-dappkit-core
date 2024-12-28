@@ -1,25 +1,25 @@
-# NeonSigner
+# EpicVaultSigner
 
-## Initialize NeonSigner
+## Initialize EpicVaultSigner
 
-To use NeonSigner you can simply call its constructor.
+To use EpicVaultSigner you can simply call its constructor.
 
 To sign messages or decrypt data you should pass an account to the constructor using the `Account` from
-`@cityofzion/neon-js`. Check the example:
+`@epicchain/epicvault-js`. Check the example:
 ```ts
-import { NeonSigner } from '@cityofzion/neon-dappkit'
-import { default as Neon } from '@cityofzion/neon-js'
+import { EpicVaultSigner } from '@epicchain/epicvault-dappkit'
+import { default as Neon } from '@epicchain/epicvault-js'
 
 const account = new Neon.wallet.account('3bd06d95e9189385851aa581d182f25de34af759cf7f883af57030303ded52b8')
 
-const signer = new NeonSigner(account)
+const signer = new EpicVaultSigner(account)
 ```
 
 If you don't want to sign messages or decrypt data, simply don't pass an account. Check the example:
 ```ts
-import { NeonSigner } from '@cityofzion/neon-dappkit'
+import { EpicVaultSigner } from '@epicchain/epicvault-dappkit'
 
-const signer = new NeonSigner()
+const signer = new EpicVaultSigner()
 ```
 
 ## Usage
@@ -43,7 +43,7 @@ You can use different signing **versions**:
 3. WITHOUT_SALT: The same format as Neoline, but without salt.
 
 ```ts
-import { SignMessageVersion } from '@cityofzion/neon-dappkit-types'
+import { SignMessageVersion } from '@epicchain/epicvault-dappkit-types'
 // ...
 const mySignedMessage = await signer.signMessage({
     message: 'My message',
@@ -82,4 +82,4 @@ is the correct one.
 
 ### More Details
 
-For more details on the methods signature, check the [Unit Tests](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/test/NeonSigner.spec.ts).
+For more details on the methods signature, check the [Unit Tests](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/test/EpicVaultSigner.spec.ts).

@@ -1,13 +1,13 @@
 import {
-  Neo3Signer,
+  EpicChainSigner,
   SignMessagePayload,
   SignedMessage,
   SignMessageVersion,
   EncryptedPayload,
   DecryptFromArrayResult,
-} from '@cityofzion/neon-dappkit-types'
-import { wallet, u } from '@cityofzion/neon-js'
-import type * as NeonTypes from '@cityofzion/neon-core'
+} from '@epicchain/epicvault-dappkit-types'
+import { wallet, u } from '@epicchain/epicvault-js'
+import type * as EpicVaultTypes from '@epicchain/epicvault-core'
 
 // @ts-ignore
 import randomBytes from 'randombytes'
@@ -16,8 +16,8 @@ import * as crypto from 'crypto'
 
 export { SignMessageVersion }
 
-export class NeonSigner implements Neo3Signer {
-  public constructor(public account?: NeonTypes.wallet.Account) {}
+export class EpicVaultSigner implements EpicChainSigner {
+  public constructor(public account?: EpicVaultTypes.wallet.Account) {}
 
   async signMessage(message: SignMessagePayload): Promise<SignedMessage> {
     if (!this.account) {

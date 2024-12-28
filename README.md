@@ -81,7 +81,7 @@ const invocation: ContractInvocationMulti = {
             args: [
                 {
                     type: 'Hash160', // Data type for the argument
-                    value: '0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5' // Argument value
+                    value: '0x6dc3bff7b2e6061f3cad5744edf307c14823328e' // Argument value
                 }
             ]
         }

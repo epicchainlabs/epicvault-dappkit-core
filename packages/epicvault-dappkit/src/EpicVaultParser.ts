@@ -1,5 +1,5 @@
 import {
-  Neo3Parser,
+  EpicChainParser,
   ParseConfig,
   ABI_TYPES,
   HINT_TYPES,
@@ -20,10 +20,10 @@ import {
   PublicKeyArgType,
   RpcResponseStackItem,
   StringArgType,
-} from '@cityofzion/neon-dappkit-types'
-import { u, wallet, sc } from '@cityofzion/neon-js'
+} from '@epicchain/epicvault-dappkit-types'
+import { u, wallet, sc } from '@epicchain/epicvault-js'
 
-const NeonParser: Neo3Parser = {
+const EpicVaultParser: EpicChainParser = {
   abToHex(arr: ArrayBuffer | ArrayLike<number>): string {
     return u.ab2hexstring(arr)
   },
@@ -89,14 +89,14 @@ const NeonParser: Neo3Parser = {
       case 'Struct':
       case 'Array':
         return ((field as ArrayResponseArgType).value as RpcResponseStackItem[]).map((f: any) => {
-          return NeonParser.parseRpcResponse(f, (parseConfig as ArrayConfigArgType)?.generic)
+          return EpicVaultParser.parseRpcResponse(f, (parseConfig as ArrayConfigArgType)?.generic)
         })
       case 'Map': {
         const object: { [key: string]: any } = {}
         const mapResponseArg = field as MapResponseArgType
         mapResponseArg.value.forEach((f: any) => {
-          const key: string = NeonParser.parseRpcResponse(f.key, (parseConfig as MapConfigArgType)?.genericKey)
-          object[key] = NeonParser.parseRpcResponse(f.value, (parseConfig as MapConfigArgType)?.genericItem)
+          const key: string = EpicVaultParser.parseRpcResponse(f.key, (parseConfig as MapConfigArgType)?.genericKey)
+          object[key] = EpicVaultParser.parseRpcResponse(f.value, (parseConfig as MapConfigArgType)?.genericItem)
         })
         return object
       }
@@ -147,7 +147,7 @@ const NeonParser: Neo3Parser = {
           parseConfig = parseConfig as ArrayConfigArgType
           const typeHints = parseConfig && parseConfig.generic ? parseConfig.generic : undefined
 
-          return { type: 'Array', value: arg.map((arrayArg) => NeonParser.formatRpcArgument(arrayArg, typeHints)) }
+          return { type: 'Array', value: arg.map((arrayArg) => EpicVaultParser.formatRpcArgument(arrayArg, typeHints)) }
         } else if (arg !== null) {
           const mapPairs = Object.keys(arg).map((key) => {
             parseConfig = parseConfig as MapConfigArgType
@@ -155,8 +155,8 @@ const NeonParser: Neo3Parser = {
             const configItem = parseConfig?.genericItem || undefined
 
             return {
-              key: NeonParser.formatRpcArgument(key, configKey),
-              value: NeonParser.formatRpcArgument(arg[key], configItem),
+              key: EpicVaultParser.formatRpcArgument(key, configKey),
+              value: EpicVaultParser.formatRpcArgument(arg[key], configItem),
             }
           })
 
@@ -204,7 +204,7 @@ function verifyParseConfigUnion(field: RpcResponseStackItem, parseConfig?: Parse
 function parseByteString({ value }: ByteStringArgType, parseConfig?: ParseConfig) {
   const valueToParse = value as string
 
-  const rawValue = NeonParser.base64ToHex(valueToParse)
+  const rawValue = EpicVaultParser.base64ToHex(valueToParse)
 
   if (parseConfig?.type === ABI_TYPES.BYTEARRAY.name || parseConfig?.type === ABI_TYPES.PUBLICKEY.name) {
     return rawValue
@@ -215,19 +215,19 @@ function parseByteString({ value }: ByteStringArgType, parseConfig?: ParseConfig
 
     return (parseConfig as Hash160ConfigArgType)?.hint === HINT_TYPES.SCRIPTHASHLITTLEENDING.name
       ? rawValue
-      : `0x${NeonParser.reverseHex(rawValue)}`
+      : `0x${EpicVaultParser.reverseHex(rawValue)}`
   }
 
   if (parseConfig?.type === ABI_TYPES.HASH256.name) {
     if (rawValue.length !== 64) throw new TypeError(`${rawValue} is not a ${ABI_TYPES.HASH256.name}`)
 
-    return `0x${NeonParser.reverseHex(rawValue)}`
+    return `0x${EpicVaultParser.reverseHex(rawValue)}`
   }
 
   let stringValue
 
   try {
-    stringValue = NeonParser.base64ToUtf8(valueToParse)
+    stringValue = EpicVaultParser.base64ToUtf8(valueToParse)
   } catch (e) {
     return valueToParse
   }
@@ -243,4 +243,4 @@ function parseByteString({ value }: ByteStringArgType, parseConfig?: ParseConfig
   return stringValue
 }
 
-export { NeonParser }
+export { EpicVaultParser }

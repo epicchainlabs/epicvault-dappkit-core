@@ -1,9 +1,9 @@
 {
-  "name": "@cityofzion/neon-dappkit",
+  "name": "@epicchain/epicvault-dappkit",
   "entries": [
     {
       "version": "0.5.1",
-      "tag": "@cityofzion/neon-dappkit_v0.5.1",
+      "tag": "@epicchain/epicvault-dappkit_v0.5.1",
       "date": "Wed, 19 Jun 2024 14:12:13 GMT",
       "comments": {
         "patch": [
@@ -15,7 +15,7 @@
     },
     {
       "version": "0.5.0",
-      "tag": "@cityofzion/neon-dappkit_v0.5.0",
+      "tag": "@epicchain/epicvault-dappkit_v0.5.0",
       "date": "Fri, 14 Jun 2024 20:54:31 GMT",
       "comments": {
         "minor": [
@@ -25,14 +25,14 @@
         ],
         "dependency": [
           {
-            "comment": "Updating dependency \"@cityofzion/neon-dappkit-types\" to `0.4.0`"
+            "comment": "Updating dependency \"@epicchain/epicvault-dappkit-types\" to `0.4.0`"
           }
         ]
       }
     },
     {
       "version": "0.4.2",
-      "tag": "@cityofzion/neon-dappkit_v0.4.2",
+      "tag": "@epicchain/epicvault-dappkit_v0.4.2",
       "date": "Wed, 22 May 2024 19:09:40 GMT",
       "comments": {
         "none": [
@@ -52,7 +52,7 @@
     },
     {
       "version": "0.4.1",
-      "tag": "@cityofzion/neon-dappkit_v0.4.1",
+      "tag": "@epicchain/epicvault-dappkit_v0.4.1",
       "date": "Mon, 18 Mar 2024 18:09:02 GMT",
       "comments": {
         "patch": [
@@ -64,7 +64,7 @@
     },
     {
       "version": "0.4.0",
-      "tag": "@cityofzion/neon-dappkit_v0.4.0",
+      "tag": "@epicchain/epicvault-dappkit_v0.4.0",
       "date": "Fri, 02 Feb 2024 20:16:03 GMT",
       "comments": {
         "minor": [
@@ -76,7 +76,7 @@
     },
     {
       "version": "0.3.2",
-      "tag": "@cityofzion/neon-dappkit_v0.3.2",
+      "tag": "@epicchain/epicvault-dappkit_v0.3.2",
       "date": "Mon, 27 Nov 2023 18:34:53 GMT",
       "comments": {
         "patch": [
@@ -88,7 +88,7 @@
     },
     {
       "version": "0.3.1",
-      "tag": "@cityofzion/neon-dappkit_v0.3.1",
+      "tag": "@epicchain/epicvault-dappkit_v0.3.1",
       "date": "Mon, 30 Oct 2023 11:49:17 GMT",
       "comments": {
         "patch": [
@@ -98,14 +98,14 @@
         ],
         "dependency": [
           {
-            "comment": "Updating dependency \"@cityofzion/neon-dappkit-types\" to `0.3.1`"
+            "comment": "Updating dependency \"@epicchain/epicvault-dappkit-types\" to `0.3.1`"
           }
         ]
       }
     },
     {
       "version": "0.3.0",
-      "tag": "@cityofzion/neon-dappkit_v0.3.0",
+      "tag": "@epicchain/epicvault-dappkit_v0.3.0",
       "date": "Mon, 02 Oct 2023 18:41:15 GMT",
       "comments": {
         "minor": [
@@ -115,14 +115,14 @@
         ],
         "dependency": [
           {
-            "comment": "Updating dependency \"@cityofzion/neon-dappkit-types\" to `0.3.0`"
+            "comment": "Updating dependency \"@epicchain/epicvault-dappkit-types\" to `0.3.0`"
           }
         ]
       }
     },
     {
       "version": "0.2.0",
-      "tag": "@cityofzion/neon-dappkit_v0.2.0",
+      "tag": "@epicchain/epicvault-dappkit_v0.2.0",
       "date": "Thu, 28 Sep 2023 13:15:04 GMT",
       "comments": {
         "minor": [
@@ -132,14 +132,14 @@
         ],
         "dependency": [
           {
-            "comment": "Updating dependency \"@cityofzion/neon-dappkit-types\" to `0.2.0`"
+            "comment": "Updating dependency \"@epicchain/epicvault-dappkit-types\" to `0.2.0`"
           }
         ]
       }
     },
     {
       "version": "0.1.0",
-      "tag": "@cityofzion/neon-dappkit_v0.1.0",
+      "tag": "@epicchain/epicvault-dappkit_v0.1.0",
       "date": "Wed, 27 Sep 2023 16:59:04 GMT",
       "comments": {
         "minor": [
@@ -152,31 +152,31 @@
         ],
         "dependency": [
           {
-            "comment": "Updating dependency \"@cityofzion/neon-dappkit-types\" to `0.1.0`"
+            "comment": "Updating dependency \"@epicchain/epicvault-dappkit-types\" to `0.1.0`"
           }
         ]
       }
     },
     {
       "version": "0.0.8",
-      "tag": "@cityofzion/neon-dappkit_v0.0.8",
+      "tag": "@epicchain/epicvault-dappkit_v0.0.8",
       "date": "Thu, 14 Sep 2023 20:35:01 GMT",
       "comments": {
         "patch": [
           {
-            "comment": "Add \"Struct\" type support on NeonParser"
+            "comment": "Add \"Struct\" type support on EpicVaultParser"
           }
         ],
         "dependency": [
           {
-            "comment": "Updating dependency \"@cityofzion/neon-dappkit-types\" to `0.0.7`"
+            "comment": "Updating dependency \"@epicchain/epicvault-dappkit-types\" to `0.0.7`"
           }
         ]
       }
     },
     {
       "version": "0.0.7",
-      "tag": "@cityofzion/neon-dappkit_v0.0.7",
+      "tag": "@epicchain/epicvault-dappkit_v0.0.7",
       "date": "Tue, 12 Sep 2023 17:08:52 GMT",
       "comments": {
         "patch": [
@@ -188,7 +188,7 @@
     },
     {
       "version": "0.0.6",
-      "tag": "@cityofzion/neon-dappkit_v0.0.6",
+      "tag": "@epicchain/epicvault-dappkit_v0.0.6",
       "date": "Mon, 11 Sep 2023 14:54:03 GMT",
       "comments": {
         "patch": [
@@ -201,7 +201,7 @@
         ],
         "dependency": [
           {
-            "comment": "Updating dependency \"@cityofzion/neon-dappkit-types\" to `0.0.6`"
+            "comment": "Updating dependency \"@epicchain/epicvault-dappkit-types\" to `0.0.6`"
           }
         ]
       }

@@ -1,18 +1,18 @@
-# NeonEventListener
+# EpicVaultEventListener
 
-## Initialize NeonEventListener
+## Initialize EpicVaultEventListener
 
-To use NeonEventListener you can simply call its constructor passing the network you want to use.
+To use EpicVaultEventListener you can simply call its constructor passing the network you want to use.
 
 ```ts
-import { NeonEventListener } from '@cityofzion/neon-dappkit'
+import { EpicVaultEventListener } from '@epicchain/epicvault-dappkit'
 
-const eventListener = new NeonEventListener(NeonEventListener.MAINNET)
+const eventListener = new EpicVaultEventListener(EpicVaultEventListener.MAINNET)
 ```
 
 You can also pass a custom RPC endpoint:
 ```ts
-const eventListener = new NeonEventListener('http://127.0.0.1:5001')
+const eventListener = new EpicVaultEventListener('http://127.0.0.1:5001')
 ```
 
 ## Usage
@@ -66,5 +66,5 @@ eventListener.confirmTransaction(
 ### More Details
 
 For more details on the methods signature, check the auto-generated
-[Docs](https://htmlpreview.github.io/?https://raw.githubusercontent.com/CityOfZion/neon-dappkit/master/packages/neon-dappkit-types/docs/interfaces/Neo3EventListener.html)
-and the [Source Code](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/src/NeonEventListener.ts).
+[Docs](https://htmlpreview.github.io/?https://raw.githubusercontent.com/epicchain/epicvault-dappkit/master/packages/neon-dappkit-types/docs/interfaces/Neo3EventListener.html)
+and the [Source Code](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/src/EpicVaultEventListener.ts).

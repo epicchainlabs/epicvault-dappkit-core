@@ -1,29 +1,29 @@
 import { ChildProcess, spawn } from 'child_process'
-import { NeonEventListener, NeonInvoker, NeonParser } from '../src/index'
+import { EpicVaultEventListener, EpicVaultInvoker, EpicVaultParser } from '../src/index'
 import assert from 'assert'
 import {
   ContractInvocationMulti,
-  Neo3ApplicationLog,
-  Neo3EventListenerCallback,
+  EpicChainApplicationLog,
+  EpicChainEventListenerCallback,
   Neo3EventWithState,
   TypeChecker,
-} from '@cityofzion/neon-dappkit-types'
+} from '@epicchain/epicvault-dappkit-types'
 import { wallet } from '@cityofzion/neon-core'
 import {
   wait,
-  neoGoPath,
+  epicchainGoPath,
   getDataDir,
   transferInvocation,
   waitTime,
   rpcAddress,
   gasScriptHash,
-  neonEventListenerOptions,
+  EpicVaultEventListenerOptions,
 } from './helper'
 
-describe('NeonEventListener', function () {
+describe('EpicVaultEventListener', function () {
   this.timeout(60000)
   let childProcess: ChildProcess
-  const eventListener = new NeonEventListener(rpcAddress, neonEventListenerOptions)
+  const eventListener = new EpicVaultEventListener(rpcAddress, EpicVaultEventListenerOptions)
   let accountWithGas: wallet.Account
 
   function gasTransferInvocation(
@@ -35,7 +35,7 @@ describe('NeonEventListener', function () {
   }
 
   beforeEach(async function () {
-    const neoGo = neoGoPath()
+    const neoGo = epicchainGoPath()
     const dataDir = getDataDir()
 
     childProcess = spawn(
@@ -59,7 +59,7 @@ describe('NeonEventListener', function () {
   })
 
   it('does execute neoGo', async () => {
-    assert(childProcess !== undefined, 'child process running neo-go is set')
+    assert(childProcess !== undefined, 'child process running epicchain-go is set')
   })
 
   it('adds an eventListener', async () => {
@@ -78,7 +78,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
 
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     assert(txId, 'Transaction ID should be returned')
@@ -117,7 +117,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
 
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     assert(txId, 'Transaction ID should be returned')
@@ -136,7 +136,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
 
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     assert(txId, 'Transaction ID should be returned')
@@ -153,7 +153,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
 
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     assert(txId, 'Transaction ID should be returned')
@@ -179,7 +179,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
 
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     assert(txId, 'Transaction ID should be returned')
@@ -191,7 +191,7 @@ describe('NeonEventListener', function () {
     const eventName = 'Transfer'
     let called = 0
 
-    const callBack: Neo3EventListenerCallback = (notification: Neo3EventWithState) => {
+    const callBack: EpicChainEventListenerCallback = (notification: Neo3EventWithState) => {
       assert(notification)
       called += 1
     }
@@ -201,7 +201,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
 
     let txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     assert(txId, 'Transaction ID should be returned')
@@ -221,7 +221,7 @@ describe('NeonEventListener', function () {
     const eventName = 'Transfer'
     let called = 0
 
-    const callBack: Neo3EventListenerCallback = (notification: Neo3EventWithState) => {
+    const callBack: EpicChainEventListenerCallback = (notification: Neo3EventWithState) => {
       assert(notification)
       called += 1
     }
@@ -231,7 +231,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
 
     let txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     assert(txId, 'Transaction ID should be returned')
@@ -251,7 +251,7 @@ describe('NeonEventListener', function () {
     const eventName = 'Transfer'
     let called = 0
 
-    const callBack: Neo3EventListenerCallback = (notification: Neo3EventWithState) => {
+    const callBack: EpicChainEventListenerCallback = (notification: Neo3EventWithState) => {
       assert(notification)
       called += 1
     }
@@ -261,7 +261,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
 
     let txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     assert(txId, 'Transaction ID should be returned')
@@ -281,7 +281,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
 
     const applicationLog = await eventListener.waitForApplicationLog(txId)
@@ -311,10 +311,10 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
 
-    const fastEventListener = new NeonEventListener(rpcAddress, {
+    const fastEventListener = new EpicVaultEventListener(rpcAddress, {
       waitForApplicationLog: { maxAttempts: 1, waitMs: 10 },
     })
 
@@ -325,7 +325,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     const applicationLog = await eventListener.waitForApplicationLog(txId)
 
@@ -333,7 +333,7 @@ describe('NeonEventListener', function () {
   })
 
   it('confirms Halt on a fault state', async () => {
-    const applicationLog: Neo3ApplicationLog = {
+    const applicationLog: EpicChainApplicationLog = {
       txid: '',
       executions: [
         {
@@ -352,7 +352,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     const applicationLog = await eventListener.waitForApplicationLog(txId)
 
@@ -367,7 +367,7 @@ describe('NeonEventListener', function () {
   })
 
   it('confirms stack true on an empty stack', async () => {
-    const applicationLog: Neo3ApplicationLog = {
+    const applicationLog: EpicChainApplicationLog = {
       txid: '',
       executions: [],
     }
@@ -379,7 +379,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     const applicationLog = await eventListener.waitForApplicationLog(txId)
 
@@ -394,14 +394,14 @@ describe('NeonEventListener', function () {
     const senderStack = notificationState.state.value[0]
     assert(TypeChecker.isStackTypeByteString(senderStack), 'Sender should be a byte string')
     assert(
-      NeonParser.reverseHex(NeonParser.base64ToHex(senderStack.value)) === sender.scriptHash,
+      EpicVaultParser.reverseHex(EpicVaultParser.base64ToHex(senderStack.value)) === sender.scriptHash,
       'Sender should be the first element',
     )
 
     const receiverStack = notificationState.state.value[1]
     assert(TypeChecker.isStackTypeByteString(receiverStack), 'Receiver should be a byte string')
     assert(
-      NeonParser.reverseHex(NeonParser.base64ToHex(receiverStack.value)) === receiver.scriptHash,
+      EpicVaultParser.reverseHex(EpicVaultParser.base64ToHex(receiverStack.value)) === receiver.scriptHash,
       'Receiver should be the second element',
     )
 
@@ -414,7 +414,7 @@ describe('NeonEventListener', function () {
     const sender = accountWithGas
     const receiver = new wallet.Account()
 
-    const neoInvoker = await NeonInvoker.init({ rpcAddress, account: sender })
+    const neoInvoker = await EpicVaultInvoker.init({ rpcAddress, account: sender })
     const txId = await neoInvoker.invokeFunction(gasTransferInvocation(sender, receiver, '100'))
     const applicationLog = await eventListener.waitForApplicationLog(txId)
 

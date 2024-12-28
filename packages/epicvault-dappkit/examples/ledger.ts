@@ -1,12 +1,12 @@
-import { NeonInvoker } from '@cityofzion/neon-dappkit'
-import { default as Neon } from '@cityofzion/neon-js'
-import * as NeonLedger from '@cityofzion/neon-ledger'
+import { EpicVaultInvoker } from '@epicchain/epicvault-dappkit'
+import { default as Neon } from '@epicchain/epicvault-js'
+import * as NeonLedger from '@epicchain/epicvault-ledger'
 
 const account = Neon.create.account('NKuyBkoGdZZSLyPbJEetheRhMjeznFZszf')
 
 /* eslint "@typescript-eslint/no-unused-vars": "off" */
-const invoker = await NeonInvoker.init({
-  rpcAddress: NeonInvoker.MAINNET,
+const invoker = await EpicVaultInvoker.init({
+  rpcAddress: EpicVaultInvoker.MAINNET,
   account,
   signingCallback: async (transactionClass, { network, witnessIndex }) => {
     const ledger = await NeonLedger.init()

@@ -1,11 +1,11 @@
-import { NeonSigner, SignMessageVersion } from '../src/index'
-import { wallet } from '@cityofzion/neon-js'
+import { EpicVaultSigner, SignMessageVersion } from '../src/index'
+import { wallet } from '@epicchain/epicvault-js'
 import assert from 'assert'
 
-describe('NeonSigner', function () {
+describe('EpicVaultSigner', function () {
   it('can sign and verify', async () => {
     const acc = new wallet.Account('fb1f57cc1347ae5b6251dc8bae761362d2ecaafec4c87f4dc9e97fef6dd75014')
-    const signer = new NeonSigner(acc)
+    const signer = new EpicVaultSigner(acc)
 
     const signed = await signer.signMessage({
       version: SignMessageVersion.DEFAULT,
@@ -24,7 +24,7 @@ describe('NeonSigner', function () {
 
   it('can sign using classic version and verify', async () => {
     const acc = new wallet.Account('fb1f57cc1347ae5b6251dc8bae761362d2ecaafec4c87f4dc9e97fef6dd75014')
-    const signer = new NeonSigner(acc)
+    const signer = new EpicVaultSigner(acc)
 
     const signed = await signer.signMessage({
       version: SignMessageVersion.CLASSIC,
@@ -43,7 +43,7 @@ describe('NeonSigner', function () {
 
   it('can sign with no salt and verify', async () => {
     const acc = new wallet.Account('fb1f57cc1347ae5b6251dc8bae761362d2ecaafec4c87f4dc9e97fef6dd75014')
-    const signer = new NeonSigner(acc)
+    const signer = new EpicVaultSigner(acc)
 
     const signed = await signer.signMessage({
       version: SignMessageVersion.WITHOUT_SALT,
@@ -61,7 +61,7 @@ describe('NeonSigner', function () {
   })
 
   it('can verify', async () => {
-    const signer = new NeonSigner()
+    const signer = new EpicVaultSigner()
     const verified = await signer.verifyMessage({
       publicKey: '031757edb62014dea820a0b33a156f6a59fc12bd966202f0e49357c81f26f5de34',
       data: 'aeb234ed1639e9fcc95a102633b1c70ca9f9b97e9592cc74bfc40cbc7fefdb19ae8c6b49ebd410dbcbeec6b5906e503d528e34cd5098cc7929dbcbbaf23c5d77',
@@ -74,7 +74,7 @@ describe('NeonSigner', function () {
   })
 
   it('can verify legacy messages', async () => {
-    const signer = new NeonSigner()
+    const signer = new EpicVaultSigner()
     const verified = await signer.verifyMessage({
       message: 'Hello World',
       messageHex: '48656c6c6f20576f726c64',
@@ -87,7 +87,7 @@ describe('NeonSigner', function () {
   })
 
   it('can verify when failing', async () => {
-    const signer = new NeonSigner()
+    const signer = new EpicVaultSigner()
     const verified = await signer.verifyMessage({
       publicKey: '031757edb62014dea820a0b33a156f6a59fc12bd966202f0e49357c81f26f5de34',
       data: '4fe1b478cf76564b2133bdff9ba97d8a360ce36d0511918931cda207c2ce589dfc07ec5d8b93ce7c3b70fc88b676cc9e08f9811bf0d5b5710a20f10c58191bfb',
@@ -101,7 +101,7 @@ describe('NeonSigner', function () {
 
   it('can encrypt and decrypt messages from the corresponding public key', async () => {
     const account = new wallet.Account()
-    const signer = new NeonSigner(account)
+    const signer = new EpicVaultSigner(account)
     const messageOriginal = 'Some plaintext for encryption'
 
     const messageEncrypted = await signer.encrypt(messageOriginal, [account.publicKey])
@@ -116,7 +116,7 @@ describe('NeonSigner', function () {
   it('can NOT encrypt and decrypt messages from different public keys', async () => {
     const account = new wallet.Account()
     const anotherAccount = new wallet.Account()
-    const signer = new NeonSigner(account)
+    const signer = new EpicVaultSigner(account)
     const messageOriginal = 'Some plaintext for encryption'
 
     const messageEncrypted = await signer.encrypt(messageOriginal, [anotherAccount.publicKey])
@@ -133,7 +133,7 @@ describe('NeonSigner', function () {
     const anotherAccount2 = new wallet.Account()
     const anotherAccount3 = new wallet.Account()
 
-    const signer = new NeonSigner(account)
+    const signer = new EpicVaultSigner(account)
     const messageOriginal = 'Some plaintext for encryption'
     const publicKeys = [
       anotherAccount3.publicKey,
@@ -148,7 +148,7 @@ describe('NeonSigner', function () {
     assert(messageDecrypted.message === messageOriginal)
     assert(messageDecrypted.keyIndex === publicKeys.length - 1)
 
-    const anotherSigner = new NeonSigner(anotherAccount1)
+    const anotherSigner = new EpicVaultSigner(anotherAccount1)
     const anotherMessageDecrypted = await anotherSigner.decryptFromArray(messageEncrypted)
     assert(anotherMessageDecrypted.message === messageOriginal)
     assert(anotherMessageDecrypted.keyIndex !== messageDecrypted.keyIndex)
@@ -161,7 +161,7 @@ describe('NeonSigner', function () {
     const anotherAccount2 = new wallet.Account()
     const anotherAccount3 = new wallet.Account()
 
-    const signer = new NeonSigner(account)
+    const signer = new EpicVaultSigner(account)
     const messageOriginal = 'Some plaintext for encryption'
     const publicKeys = [anotherAccount3.publicKey, anotherAccount2.publicKey, anotherAccount1.publicKey]
 

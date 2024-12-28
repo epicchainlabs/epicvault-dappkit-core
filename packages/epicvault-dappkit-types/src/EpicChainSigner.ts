@@ -79,7 +79,7 @@ export interface DecryptFromArrayResult {
 /**
  * A simple interface that defines the Signing and Verifying methods
  */
-export interface Neo3Signer {
+export interface EpicChainSigner {
   /**
    * Signs a message
    * @param params the params to send the request

@@ -1,39 +1,39 @@
-# NeonInvoker
+# EpicVaultInvoker
 
-## Initialize NeonInvoker
+## Initialize EpicVaultInvoker
 
-To use NeonInvoker you can simply call `NeonInvoker.init`.
+To use EpicVaultInvoker you can simply call `EpicVaultInvoker.init`.
 
-To persist changes to the blockchain or sign the transactions you should pass an account to `NeonInvoker.init` using the
+To persist changes to the blockchain or sign the transactions you should pass an account to `EpicVaultInvoker.init` using the
 `Account` from `@cityofzion/neon-js`. Check the example:
 ```ts
-import { NeonInvoker } from '@cityofzion/neon-dappkit'
+import { EpicVaultInvoker } from '@epicchain/epicvault-dappkit'
 import * as Neon from '@cityofzion/neon-js'
 
 const account = new Neon.wallet.Account('3bd06d95e9189385851aa581d182f25de34af759cf7f883af57030303ded52b8')
 
-const invoker = await NeonInvoker.init({
-  rpcAddress: NeonInvoker.MAINNET,
+const invoker = await EpicVaultInvoker.init({
+  rpcAddress: EpicVaultInvoker.MAINNET,
   account,
 })
 ```
 
-You can also pass an signingCallback to the `NeonInvoker.init` method. It should return a `Promise` of signature string. See [here](./examples/ledger.ts) an example implementation of ledger signature.
+You can also pass an signingCallback to the `EpicVaultInvoker.init` method. It should return a `Promise` of signature string. See [here](./examples/ledger.ts) an example implementation of ledger signature.
 
 If you don't want to sign or persist changes to the blockchain, simply don't pass an account. Check the example:
 ```ts
-import { NeonInvoker } from '@cityofzion/neon-dappkit'
+import { EpicVaultInvoker } from '@epicchain/epicvault-dappkit'
 
-const invoker = await NeonInvoker.init({
-  rpcAddress: NeonInvoker.MAINNET,
+const invoker = await EpicVaultInvoker.init({
+  rpcAddress: EpicVaultInvoker.MAINNET,
 })
 ```
 
-You can also pass a custom RPC endpoint to the `NeonInvoker.init` method.
+You can also pass a custom RPC endpoint to the `EpicVaultInvoker.init` method.
 
 Another example of initialization is:
 ```ts
-const invoker = await NeonInvoker.init({
+const invoker = await EpicVaultInvoker.init({
   rpcAddress: 'http://127.0.0.1:5001',
   account,
 })
@@ -48,7 +48,7 @@ To invoke a SmartContract method you can use `invokeFunction` method.
 Neo blockchain expect arguments with `{ type, value }` format, check the [Arguments Documentation](./ARGUMENTS.md) to understand how to format them.
 
 To invoke a SmartContract, it's important to know the argument types of the method, this information can be found on the contract page on Dora.
-On the example below we are invoking the `transfer` method of the [GAS](https://dora.coz.io/contract/neo3/mainnet/0xd2a4cff31913016155e38e474a2c06d08be276cf) token.
+On the example below we are invoking the `transfer` method of the [GAS](https://dora.coz.io/contract/neo3/mainnet/0xbc8459660544656355b4f60861c22f544341e828) token.
 
 Check it out:
 
@@ -56,7 +56,7 @@ Check it out:
 // ...
 const resp = await invoker.invokeFunction({
     invocations: [{
-        scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf', // GAS token
+        scriptHash: '0xbc8459660544656355b4f60861c22f544341e828', // GAS token
         operation: 'transfer',
         args: [
             { type: 'Address', value: 'NhGomBpYnKXArr55nHRQ5rzy79TwKVXZbr' },
@@ -124,8 +124,8 @@ const respCustomContracts = await invoker.invokeFunction({
         scopes: 'CustomContracts',
         account: '857a247939db5c7cd3a7bb14791280c09e824bea', // signer account scripthash
         allowedContracts: [ // Using CustomContracts means that the signature is valid only these contracts below
-            '0xd2a4cff31913016155e38e474a2c06d08be276cf', // GAS token
-            '0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5', // NEO token
+            '0xbc8459660544656355b4f60861c22f544341e828', // GAS token
+            '0x6dc3bff7b2e6061f3cad5744edf307c14823328e', // NEO token
         ]
     }],
 })
@@ -170,7 +170,7 @@ const respRules = await invoker.invokeFunction({
                     expressions: [
                         {
                             type: "CalledByContract",
-                            hash: "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5"    
+                            hash: "0x6dc3bff7b2e6061f3cad5744edf307c14823328e"    
                         },
                         {
                             type: "CalledByEntry"
@@ -196,7 +196,7 @@ Check it out:
 // ...
 const resp = await invoker.testInvoke({
     invocations: [{
-        scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf', // GAS token
+        scriptHash: '0xbc8459660544656355b4f60861c22f544341e828', // GAS token
         operation: 'balanceOf',
         args: [
             { type: 'Address', value: 'NhGomBpYnKXArr55nHRQ5rzy79TwKVXZbr' }
@@ -214,7 +214,7 @@ const resp = await invoker.testInvoke({
 The traverseIterator method allows you to traverse an iterator returned by a SmartContract method.
 
 On the following example we are getting all the candidates from the
-[NEO token](https://dora.coz.io/contract/neo3/mainnet/ef4073a0f2b305a38ec4050e4d3d28bc40ea63f5) and then traversing the
+[Epicchain token](https://dora.coz.io/contract/neo3/mainnet/6dc3bff7b2e6061f3cad5744edf307c14823328e) and then traversing the
 iterator to get the first 10 items.
 
 ```ts
@@ -222,7 +222,7 @@ const resp = await invoker.testInvoke({
     invocations: [
         {
             operation: "getAllCandidates",
-            scriptHash: "ef4073a0f2b305a38ec4050e4d3d28bc40ea63f5", // neo token
+            scriptHash: "6dc3bff7b2e6061f3cad5744edf307c14823328e", // epicchain token
             args: [],
         },
     ],
@@ -247,12 +247,12 @@ See the example below:
 ```ts
 const resp = await invoker.calculateFee({
     invocations: [{
-        scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+        scriptHash: '0xbc8459660544656355b4f60861c22f544341e828',
         operation: 'transfer',
         args: [
             { type: 'Hash160', value: account.address },
             { type: 'Hash160', value: 'NbnjKGMBJzJ6j5PHeYhjJDaQ5Vy5UYu4Fv' },
-            { type: 'Integer', value: '100000000' },
+            { type: 'Integer', value: '1000000000' },
             { type: 'Array', value: [] },
         ],
     }],
@@ -277,15 +277,15 @@ transaction fees:
 const accountPayer = new wallet.Account('fb1f57cc1347ae5b6251dc8bae761362d2ecaafec4c87f4dc9e97fef6dd75014') // NbnjKGMBJzJ6j5PHeYhjJDaQ5Vy5UYu4Fv
 const accountOwner = new wallet.Account('3bd06d95e9189385851aa581d182f25de34af759cf7f883af57030303ded52b8') // NhGomBpYnKXArr55nHRQ5rzy79TwKVXZbr
 
-const invokerPayer = await NeonInvoker.init({
-    rpcAddress: NeonInvoker.TESTNET,
+const invokerPayer = await EpicVaultInvoker.init({
+    rpcAddress: EpicVaultInvoker.TESTNET,
     account: accountPayer,
 })
 
 const builtTransaction = await invokerPayer.signTransaction({
     invocations: [
         {
-            scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+            scriptHash: '0xbc8459660544656355b4f60861c22f544341e828',
             operation: 'transfer',
             args: [  // the owner is sending to payer but the payer is paying for the tx
                 { type: 'Hash160', value: accountOwner.address },
@@ -300,15 +300,15 @@ const builtTransaction = await invokerPayer.signTransaction({
             account: accountPayer.scriptHash,
             scopes: 'CalledByEntry',
         },
-        { // this can be retrived using NeonParser.accountInputToScripthash(addressOrPublicKey)
+        { // this can be retrived using EpicVaultParser.accountInputToScripthash(addressOrPublicKey)
             account: accountOwner.scriptHash,
             scopes: 'CalledByEntry',
         },
     ],
 })
 
-const invokerOwner = await NeonInvoker.init({
-    rpcAddress: NeonInvoker.TESTNET,
+const invokerOwner = await EpicVaultInvoker.init({
+    rpcAddress: EpicVaultInvoker.TESTNET,
     account: accountOwner,
 })
 
@@ -318,5 +318,5 @@ const txId = await invokerOwner.invokeFunction(builtTransaction)
 ### More Details
 
 For more details on the methods signature, check the auto-generated
-[Docs](https://htmlpreview.github.io/?https://raw.githubusercontent.com/CityOfZion/neon-dappkit/master/packages/neon-dappkit-types/docs/interfaces/Neo3Invoker.html),
-the [Unit Tests](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/src/NeonInvoker.spec.ts) and the [Source Code](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/src/NeonInvoker.ts).
+[Docs](https://htmlpreview.github.io/?https://raw.githubusercontent.com/epicchain/epicvault-dappkit/master/packages/neon-dappkit-types/docs/interfaces/EpicChainInvoker.html),
+the [Unit Tests](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/src/EpicVaultInvoker.spec.ts) and the [Source Code](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/src/EpicVaultInvoker.ts).

@@ -241,7 +241,7 @@ export type CalculateFee = {
 /**
  * The entry point for the SmartContract invocation
  */
-export interface Neo3Invoker {
+export interface EpicChainInvoker {
   /**
    * Sends an 'invokeFunction' request to the Wallet and it will communicate with the blockchain. It will consume gas and persist data to the blockchain.
    *

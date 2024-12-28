@@ -3,8 +3,8 @@ import * as path from 'path'
 import { https } from 'follow-redirects'
 import { execSync } from 'child_process'
 
-async function installNeoGo(): Promise<string | undefined> {
-  const toolsDir = path.resolve(path.join(__dirname, '..', 'neogo'))
+async function installEpicChainGo(): Promise<string | undefined> {
+  const toolsDir = path.resolve(path.join(__dirname, '..', 'epicchaingo'))
 
   const platform = process.platform
   let osType = platform.toString()
@@ -14,7 +14,7 @@ async function installNeoGo(): Promise<string | undefined> {
     fileExtension = '.exe'
   }
 
-  const goCompilerExecutablePath = path.resolve(path.join(toolsDir, `neogo${fileExtension}`))
+  const goCompilerExecutablePath = path.resolve(path.join(toolsDir, `epicchaingo${fileExtension}`))
   if (fs.existsSync(goCompilerExecutablePath)) {
     return goCompilerExecutablePath
   }
@@ -37,9 +37,9 @@ async function installNeoGo(): Promise<string | undefined> {
 
   if (!fs.existsSync(goCompilerExecutablePath)) {
     if (osType == 'darwin' && archType == 'arm64') {
-      const neoGoArchivePage = 'https://github.com/nspcc-dev/neo-go/archive/refs/tags'
-      const downloadUrl = `${neoGoArchivePage}/v${version}.zip`
-      const zipPath = path.join(toolsDir, 'neogo.zip')
+      const epicchainGoArchivePage = 'https://github.com/nspcc-dev/epicchain-go/archive/refs/tags'
+      const downloadUrl = `${epicchainGoArchivePage}/v${version}.zip`
+      const zipPath = path.join(toolsDir, 'epicchaingo.zip')
 
       await downloadAndVerify(downloadUrl, zipPath)
 
@@ -48,13 +48,13 @@ async function installNeoGo(): Promise<string | undefined> {
       const zip = new AdmZip(zipPath)
 
       zip.extractAllTo(toolsDir, true)
-      const extractedFolderPath = path.join(toolsDir, 'neo-go-' + version)
+      const extractedFolderPath = path.join(toolsDir, 'epicchain-go-' + version)
       console.log(extractedFolderPath)
       execSync(`make -C ${extractedFolderPath}`)
     } else {
-      const fileName = `neo-go-${osType}-${archType}${fileExtension}`
-      const neoGoReleasePage = 'https://github.com/nspcc-dev/neo-go/releases'
-      const downloadUrl = `${neoGoReleasePage}/download/v${version}/${fileName}`
+      const fileName = `epicchain-go-${osType}-${archType}${fileExtension}`
+      const epicchainGoReleasePage = 'https://github.com/epicchainlabs/epicchain-go/releases'
+      const downloadUrl = `${epicchainGoReleasePage}/download/v${version}/${fileName}`
 
       await downloadAndVerify(downloadUrl, goCompilerExecutablePath)
     }
@@ -87,4 +87,4 @@ async function downloadAndVerify(downloadUrl: string, downloadPath: string) {
   }
 }
 
-installNeoGo()
+installEpicChainGo()

@@ -1,22 +1,22 @@
 import {
   ContractInvocationMulti,
   Signer,
-  Neo3Invoker,
+  EpicChainInvoker,
   Arg,
   InvokeResult,
   RpcResponseStackItem,
   BuiltTransaction,
   TypeChecker,
   CalculateFee,
-} from '@cityofzion/neon-dappkit-types'
-import { tx, u, rpc, sc, api, wallet } from '@cityofzion/neon-js'
-import type * as NeonTypes from '@cityofzion/neon-core'
+} from '@epicchain/epicvault-dappkit-types'
+import { tx, u, rpc, sc, api, wallet } from '@epicchain/epicvault-js'
+import type * as EpicVaultTypes from '@epicchain/epicvault-core'
 
 export type ExtendedArg = Arg | { type: 'Address'; value: string } | { type: 'ScriptHash'; value: string }
 
 export type InitOptions = {
   rpcAddress: string
-  account?: NeonTypes.wallet.Account | NeonTypes.wallet.Account[]
+  account?: EpicVaultTypes.wallet.Account | EpicVaultTypes.wallet.Account[]
   validBlocks?: number
   signingCallback?: api.SigningFunction
 }
@@ -25,7 +25,7 @@ export type Options = InitOptions & {
   networkMagic: number
   validBlocks: number
 }
-export class NeonInvoker implements Neo3Invoker {
+export class EpicVaultInvoker implements EpicChainInvoker {
   static MAINNET = 'https://mainnet1.neo.coz.io:443'
   static TESTNET = 'https://testnet1.neo.coz.io:443'
 
@@ -37,7 +37,7 @@ export class NeonInvoker implements Neo3Invoker {
 
     const rpcResult = await new rpc.RPCClient(this.options.rpcAddress).invokeScript(
       u.HexString.fromHex(script),
-      accountArr[0] ? NeonInvoker.buildMultipleSigner(accountArr, cim.signers) : undefined,
+      accountArr[0] ? EpicVaultInvoker.buildMultipleSigner(accountArr, cim.signers) : undefined,
     )
     if (rpcResult.state === 'FAULT') throw Error(`Execution state is FAULT. Exception: ${rpcResult.exception}`)
 
@@ -90,9 +90,9 @@ export class NeonInvoker implements Neo3Invoker {
     return result.map((item): RpcResponseStackItem => ({ value: item.value as any, type: item.type as any }))
   }
 
-  static async init({ validBlocks = 100, ...options }: InitOptions): Promise<NeonInvoker> {
+  static async init({ validBlocks = 100, ...options }: InitOptions): Promise<EpicVaultInvoker> {
     const networkMagic = await this.getMagicOfRpcAddress(options.rpcAddress)
-    return new NeonInvoker({ ...options, validBlocks, networkMagic })
+    return new EpicVaultInvoker({ ...options, validBlocks, networkMagic })
   }
 
   static async getMagicOfRpcAddress(rpcAddress: string): Promise<number> {
@@ -100,7 +100,7 @@ export class NeonInvoker implements Neo3Invoker {
     return resp.protocol.network
   }
 
-  static convertParams(args: ExtendedArg[] | undefined): NeonTypes.sc.ContractParam[] {
+  static convertParams(args: ExtendedArg[] | undefined): EpicVaultTypes.sc.ContractParam[] {
     return (args ?? []).map((a) => {
       if (a.type === undefined) throw new Error('Invalid argument type')
       if (a.value === undefined) throw new Error('Invalid argument value')
@@ -151,7 +151,7 @@ export class NeonInvoker implements Neo3Invoker {
     })
   }
 
-  static buildSigner(optionsAccount: NeonTypes.wallet.Account | undefined, signerEntry?: Signer): NeonTypes.tx.Signer {
+  static buildSigner(optionsAccount: EpicVaultTypes.wallet.Account | undefined, signerEntry?: Signer): EpicVaultTypes.tx.Signer {
     let scopes = signerEntry?.scopes ?? 'CalledByEntry'
     if (typeof scopes === 'number') {
       scopes = tx.toString(scopes)
@@ -170,10 +170,10 @@ export class NeonInvoker implements Neo3Invoker {
   }
 
   static buildMultipleSigner(
-    optionAccounts: NeonTypes.wallet.Account[],
+    optionAccounts: EpicVaultTypes.wallet.Account[],
     signers: Signer[] = [],
-  ): NeonTypes.tx.Signer[] {
-    const allSigners: NeonTypes.tx.Signer[] = []
+  ): EpicVaultTypes.tx.Signer[] {
+    const allSigners: EpicVaultTypes.tx.Signer[] = []
     for (let i = 0; i < Math.max(signers.length, optionAccounts.length); i++) {
       allSigners.push(this.buildSigner(optionAccounts?.[i], signers?.[i]))
     }
@@ -181,8 +181,8 @@ export class NeonInvoker implements Neo3Invoker {
   }
 
   private normalizeAccountArray(
-    acc: NeonTypes.wallet.Account | NeonTypes.wallet.Account[] | undefined,
-  ): NeonTypes.wallet.Account[] {
+    acc: EpicVaultTypes.wallet.Account | EpicVaultTypes.wallet.Account[] | undefined,
+  ): EpicVaultTypes.wallet.Account[] {
     if (!acc) {
       return []
     }
@@ -201,7 +201,7 @@ export class NeonInvoker implements Neo3Invoker {
       sb.emitContractCall({
         scriptHash: c.scriptHash,
         operation: c.operation,
-        args: NeonInvoker.convertParams(c.args),
+        args: EpicVaultInvoker.convertParams(c.args),
       })
 
       if (c.abortOnFail) {
@@ -213,9 +213,9 @@ export class NeonInvoker implements Neo3Invoker {
   }
 
   private async signTransactionByAccounts(
-    transaction: NeonTypes.tx.Transaction,
-    accountArr: NeonTypes.wallet.Account[],
-  ): Promise<NeonTypes.tx.Transaction> {
+    transaction: EpicVaultTypes.tx.Transaction,
+    accountArr: EpicVaultTypes.wallet.Account[],
+  ): Promise<EpicVaultTypes.tx.Transaction> {
     const txClone = new tx.Transaction(transaction)
 
     let signerIndex = 0
@@ -254,10 +254,10 @@ export class NeonInvoker implements Neo3Invoker {
 
   private async buildTransactionFromCimOrBt(
     cimOrBt: ContractInvocationMulti | BuiltTransaction,
-    accountArr: NeonTypes.wallet.Account[],
-  ): Promise<NeonTypes.tx.Transaction> {
+    accountArr: EpicVaultTypes.wallet.Account[],
+  ): Promise<EpicVaultTypes.tx.Transaction> {
     const cimHexString = this.buildScriptHex(cimOrBt)
-    const signers = NeonInvoker.buildMultipleSigner(accountArr, cimOrBt.signers)
+    const signers = EpicVaultInvoker.buildMultipleSigner(accountArr, cimOrBt.signers)
 
     if ('script' in cimOrBt) {
       if (cimOrBt.script !== cimHexString) {
@@ -298,10 +298,10 @@ export class NeonInvoker implements Neo3Invoker {
 
   private async getNetworkFee(
     cim: ContractInvocationMulti,
-    rpcClient: NeonTypes.rpc.RPCClient,
-    accountArr: NeonTypes.wallet.Account[],
-    transaction: NeonTypes.tx.Transaction,
-  ): Promise<NeonTypes.u.BigInteger> {
+    rpcClient: EpicVaultTypes.rpc.RPCClient,
+    accountArr: EpicVaultTypes.wallet.Account[],
+    transaction: EpicVaultTypes.tx.Transaction,
+  ): Promise<EpicVaultTypes.u.BigInteger> {
     if (cim.networkFeeOverride) {
       return u.BigInteger.fromNumber(cim.networkFeeOverride)
     }
@@ -328,7 +328,7 @@ export class NeonInvoker implements Neo3Invoker {
     return networkFee.add(cim.extraNetworkFee ?? 0)
   }
 
-  private async getSystemFee(cimOrBt: ContractInvocationMulti): Promise<NeonTypes.u.BigInteger> {
+  private async getSystemFee(cimOrBt: ContractInvocationMulti): Promise<EpicVaultTypes.u.BigInteger> {
     if (cimOrBt.systemFeeOverride) {
       return u.BigInteger.fromNumber(cimOrBt.systemFeeOverride)
     }

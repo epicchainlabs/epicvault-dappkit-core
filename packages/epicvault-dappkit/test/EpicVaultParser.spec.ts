@@ -1,9 +1,9 @@
-import { NeonParser } from '../src'
+import { EpicVaultParser } from '../src'
 import { describe, it } from 'mocha'
 import * as assert from 'assert'
-import { RpcResponseStackItem } from '@cityofzion/neon-dappkit-types'
+import { RpcResponseStackItem } from '@epicchain/epicvault-dappkit-types'
 
-describe('NeonParser', function () {
+describe('EpicVaultParser', function () {
   this.timeout(60000)
 
   it('converts an ArrayBuffer into a hex string', async () => {
@@ -11,7 +11,7 @@ describe('NeonParser', function () {
     const arrayBuffer = encoder.encode('unit test')
     const hexString = '756e69742074657374'
 
-    assert.equal(NeonParser.abToHex(arrayBuffer), hexString)
+    assert.equal(EpicVaultParser.abToHex(arrayBuffer), hexString)
   })
 
   it('converts an ArrayBuffer into a string', async () => {
@@ -19,7 +19,7 @@ describe('NeonParser', function () {
     const str = 'unit test'
     const arrayBuffer = encoder.encode(str)
 
-    assert.equal(NeonParser.abToStr(arrayBuffer), str)
+    assert.equal(EpicVaultParser.abToStr(arrayBuffer), str)
   })
 
   it('converts an account input into its address', async () => {
@@ -28,9 +28,9 @@ describe('NeonParser', function () {
     const publicKey = '03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c'
     const scriptHash = 'a5de523ae9d99be784a536e9412b7a3cbe049e1a'
 
-    assert.equal(NeonParser.accountInputToAddress(privateKey), address)
-    assert.equal(NeonParser.accountInputToAddress(publicKey), address)
-    assert.equal(NeonParser.accountInputToAddress(scriptHash), address)
+    assert.equal(EpicVaultParser.accountInputToAddress(privateKey), address)
+    assert.equal(EpicVaultParser.accountInputToAddress(publicKey), address)
+    assert.equal(EpicVaultParser.accountInputToAddress(scriptHash), address)
   })
 
   it('converts an account input into its scripthash', async () => {
@@ -39,24 +39,24 @@ describe('NeonParser', function () {
     const publicKey = '03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c'
     const address = 'NNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs'
 
-    assert.equal(NeonParser.accountInputToScripthash(privateKey), scriptHash)
-    assert.equal(NeonParser.accountInputToScripthash(publicKey), scriptHash)
-    assert.equal(NeonParser.accountInputToScripthash(address), scriptHash)
+    assert.equal(EpicVaultParser.accountInputToScripthash(privateKey), scriptHash)
+    assert.equal(EpicVaultParser.accountInputToScripthash(publicKey), scriptHash)
+    assert.equal(EpicVaultParser.accountInputToScripthash(address), scriptHash)
   })
 
   it('converts a base64 string to a hex string', async () => {
     let base64String = 'dW5pdCB0ZXN0'
     let hexString = '756e69742074657374'
-    assert.equal(NeonParser.base64ToHex(base64String), hexString)
+    assert.equal(EpicVaultParser.base64ToHex(base64String), hexString)
 
     base64String = 'TmVvblBhcnNlcg=='
     hexString = '4e656f6e506172736572'
-    assert.equal(NeonParser.base64ToHex(base64String), hexString)
+    assert.equal(EpicVaultParser.base64ToHex(base64String), hexString)
   })
 
   it('converts a base64 string to a hex and revert it', async () => {
     assert.equal(
-      NeonParser.reverseHex(NeonParser.base64ToHex('ateeXCdGd+AdYKWa5w8SikaAqlk=')),
+      EpicVaultParser.reverseHex(EpicVaultParser.base64ToHex('ateeXCdGd+AdYKWa5w8SikaAqlk=')),
       '59aa80468a120fe79aa5601de07746275c9ed76a',
     )
   })
@@ -64,90 +64,90 @@ describe('NeonParser', function () {
   it('converts a base64 string into an utf-8 string', async () => {
     const base64String = 'VVRGLTggU3RyaW5nIMOhw6PDoMOn'
     const utf8String = 'UTF-8 String áãàç'
-    assert.equal(NeonParser.base64ToUtf8(base64String), utf8String)
+    assert.equal(EpicVaultParser.base64ToUtf8(base64String), utf8String)
   })
 
   it('converts a hex string into a base64 string', async () => {
     let base64String = 'dW5pdCB0ZXN0'
     let hexString = '756e69742074657374'
-    assert.equal(NeonParser.hexToBase64(hexString), base64String)
+    assert.equal(EpicVaultParser.hexToBase64(hexString), base64String)
 
     base64String = 'TmVvblBhcnNlcg=='
     hexString = '4e656f6e506172736572'
-    assert.equal(NeonParser.hexToBase64(hexString), base64String)
+    assert.equal(EpicVaultParser.hexToBase64(hexString), base64String)
   })
 
   it('converts a hex string into an array buffer', async () => {
     const encoder = new TextEncoder()
     const arrayBuffer = encoder.encode('unit test')
     const hexString = '756e69742074657374'
-    assert.deepEqual(NeonParser.hexToAb(hexString), arrayBuffer)
+    assert.deepEqual(EpicVaultParser.hexToAb(hexString), arrayBuffer)
   })
 
   it('converts a hex string into a string', async () => {
     let str = 'unit test'
     let hexString = '756e69742074657374'
-    assert.equal(NeonParser.hexToStr(hexString), str)
+    assert.equal(EpicVaultParser.hexToStr(hexString), str)
 
-    str = 'NeonParser'
+    str = 'EpicVaultParser'
     hexString = '4e656f6e506172736572'
-    assert.equal(NeonParser.hexToStr(hexString), str)
+    assert.equal(EpicVaultParser.hexToStr(hexString), str)
   })
 
   it('converts a number into a hex string intToHex', async () => {
     let num = 16
     let hexString = '10'
-    assert.equal(NeonParser.intToHex(num), hexString)
+    assert.equal(EpicVaultParser.intToHex(num), hexString)
 
     num = 512
     hexString = '0200'
-    assert.equal(NeonParser.intToHex(num), hexString)
+    assert.equal(EpicVaultParser.intToHex(num), hexString)
   })
 
   it('converts a number into a hex string numToHexstring', async () => {
     let num = 16
     let hexString = '10'
-    assert.equal(NeonParser.numToHex(num), hexString)
+    assert.equal(EpicVaultParser.numToHex(num), hexString)
 
     num = 512
     hexString = '00'
-    assert.equal(NeonParser.numToHex(num), hexString)
+    assert.equal(EpicVaultParser.numToHex(num), hexString)
 
     num = 512
     hexString = '0200'
-    assert.equal(NeonParser.numToHex(num, 2), hexString)
+    assert.equal(EpicVaultParser.numToHex(num, 2), hexString)
 
     num = 512
     hexString = '0002'
-    assert.equal(NeonParser.numToHex(num, 2, true), hexString)
+    assert.equal(EpicVaultParser.numToHex(num, 2, true), hexString)
   })
 
   it('converts a number into a variable length Int', async () => {
     let num = 16
     let str = '10'
-    assert.equal(NeonParser.numToVarInt(num), str)
+    assert.equal(EpicVaultParser.numToVarInt(num), str)
 
     num = 512
     str = 'fd0002'
-    assert.equal(NeonParser.numToVarInt(num), str)
+    assert.equal(EpicVaultParser.numToVarInt(num), str)
 
     num = 65535
     str = 'fdffff'
-    assert.equal(NeonParser.numToVarInt(num), str)
+    assert.equal(EpicVaultParser.numToVarInt(num), str)
 
     num = 4294967295
     str = 'feffffffff'
-    assert.equal(NeonParser.numToVarInt(num), str)
+    assert.equal(EpicVaultParser.numToVarInt(num), str)
 
     num = 4294967296
     str = 'ff0000000001000000'
-    assert.equal(NeonParser.numToVarInt(num), str)
+    assert.equal(EpicVaultParser.numToVarInt(num), str)
   })
 
   it('reverts a hex string', async () => {
     const hexString = 'abcdef'
     const reverseHexString = 'efcdab'
-    assert.equal(NeonParser.reverseHex(hexString), reverseHexString)
+    assert.equal(EpicVaultParser.reverseHex(hexString), reverseHexString)
   })
 
   it('converts a string into an array buffer', async () => {
@@ -155,62 +155,62 @@ describe('NeonParser', function () {
     const str = 'unit test'
     const arrayBuffer = encoder.encode(str)
 
-    assert.deepEqual(NeonParser.strToAb(str), arrayBuffer)
+    assert.deepEqual(EpicVaultParser.strToAb(str), arrayBuffer)
   })
 
   it('converts a string into a base64 string ', async () => {
     let str = 'unit test'
     let base64String = 'dW5pdCB0ZXN0'
-    assert.equal(NeonParser.strToBase64(str), base64String)
+    assert.equal(EpicVaultParser.strToBase64(str), base64String)
 
-    str = 'NeonParser'
+    str = 'EpicVaultParser'
     base64String = 'TmVvblBhcnNlcg=='
-    assert.equal(NeonParser.strToBase64(str), base64String)
+    assert.equal(EpicVaultParser.strToBase64(str), base64String)
   })
 
   it('converts a string into a hex string', async () => {
     let str = 'unit test'
     let hexString = '756e69742074657374'
-    assert.equal(NeonParser.strToHex(str), hexString)
+    assert.equal(EpicVaultParser.strToHex(str), hexString)
 
-    str = 'NeonParser'
+    str = 'EpicVaultParser'
     hexString = '4e656f6e506172736572'
-    assert.equal(NeonParser.strToHex(str), hexString)
+    assert.equal(EpicVaultParser.strToHex(str), hexString)
   })
 
   // Currently neon-core's utf82base64 method is bugged, but will be fixed on the next patch release
   it.skip('converts a utf-8 string into a base64 string', async () => {
     let utf8String = 'unit test'
     let base64String = 'dW5pdCB0ZXN0'
-    assert.equal(NeonParser.utf8ToBase64(utf8String), base64String)
+    assert.equal(EpicVaultParser.utf8ToBase64(utf8String), base64String)
 
-    utf8String = 'NeonParser'
+    utf8String = 'EpicVaultParser'
     base64String = 'TmVvblBhcnNlcg=='
-    assert.equal(NeonParser.utf8ToBase64(utf8String), base64String)
+    assert.equal(EpicVaultParser.utf8ToBase64(utf8String), base64String)
 
     utf8String = 'ãõáàç'
     base64String = 'w6PDtcOhw6DDpw=='
-    assert.equal(NeonParser.utf8ToBase64(utf8String), base64String)
+    assert.equal(EpicVaultParser.utf8ToBase64(utf8String), base64String)
   })
 
   it('converts a ascii string into a base64 string', async () => {
     let asciiString = 'unit test'
     let base64String = 'dW5pdCB0ZXN0'
-    assert.equal(NeonParser.asciiToBase64(asciiString), base64String)
+    assert.equal(EpicVaultParser.asciiToBase64(asciiString), base64String)
 
-    asciiString = 'NeonParser'
+    asciiString = 'EpicVaultParser'
     base64String = 'TmVvblBhcnNlcg=='
-    assert.equal(NeonParser.asciiToBase64(asciiString), base64String)
+    assert.equal(EpicVaultParser.asciiToBase64(asciiString), base64String)
   })
 
   describe('parseRpcResponse', function () {
     it('parses Address', async () => {
       const rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
-        value: NeonParser.asciiToBase64('NNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs'),
+        value: EpicVaultParser.asciiToBase64('NNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs'),
       }
 
-      const address = NeonParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' })
+      const address = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' })
       assert.deepEqual(address, 'NNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs')
     })
 
@@ -218,33 +218,33 @@ describe('NeonParser', function () {
       const rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
         // Address will end up too short
-        value: NeonParser.hexToBase64('Nnnnnnnnnnnnnnnn'),
+        value: EpicVaultParser.hexToBase64('Nnnnnnnnnnnnnnnn'),
       }
-      assert.throws(() => NeonParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' }))
+      assert.throws(() => EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' }))
 
       // Address will be too big
-      rpcResponse.value = NeonParser.strToBase64('NnnnnnnnnnnnnnnnNnnnnnnnnnnnnnnnNnnnnnnnnnnnnnnn')
-      assert.throws(() => NeonParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' }))
+      rpcResponse.value = EpicVaultParser.strToBase64('NnnnnnnnnnnnnnnnNnnnnnnnnnnnnnnnNnnnnnnnnnnnnnnn')
+      assert.throws(() => EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' }))
 
       // Address shouldn't start with a letter that isn't 'A' or 'N'
-      rpcResponse.value = NeonParser.strToBase64('BNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs')
-      assert.throws(() => NeonParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' }))
+      rpcResponse.value = EpicVaultParser.strToBase64('BNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs')
+      assert.throws(() => EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' }))
 
       // Address shouldn't have invalid base58 characters
-      rpcResponse.value = NeonParser.strToBase64('NNLI44dJNXtDNSBkofB48aTVYtb1zZrNEL')
-      assert.throws(() => NeonParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' }))
+      rpcResponse.value = EpicVaultParser.strToBase64('NNLI44dJNXtDNSBkofB48aTVYtb1zZrNEL')
+      assert.throws(() => EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'String', hint: 'Address' }))
     })
 
     it('parses ScriptHash and ScriptHashLittleEndian', async () => {
       const rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
-        value: NeonParser.hexToBase64('61479ab68fd5c2c04b254f382d84ddf2f5c67ced'),
+        value: EpicVaultParser.hexToBase64('61479ab68fd5c2c04b254f382d84ddf2f5c67ced'),
       }
 
-      const scriptHash = NeonParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHash' })
+      const scriptHash = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHash' })
       assert.deepEqual(scriptHash, '0xed7cc6f5f2dd842d384f254bc0c2d58fb69a4761')
 
-      const scriptHashLilEndian = NeonParser.parseRpcResponse(rpcResponse, {
+      const scriptHashLilEndian = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Hash160',
         hint: 'ScriptHashLittleEndian',
       })
@@ -255,55 +255,55 @@ describe('NeonParser', function () {
       const rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
         // ScriptHash will end up too short
-        value: NeonParser.hexToBase64('61479ab68fd5c2c04b25'),
+        value: EpicVaultParser.hexToBase64('61479ab68fd5c2c04b25'),
       }
-      assert.throws(() => NeonParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHash' }))
-      assert.throws(() => NeonParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHashLittleEndian' }))
+      assert.throws(() => EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHash' }))
+      assert.throws(() => EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHashLittleEndian' }))
 
       // ScriptHash will be too big
-      rpcResponse.value = NeonParser.hexToBase64('61479ab68fd5c2c04b254f382d84ddf2f5c67ced111111111111')
-      assert.throws(() => NeonParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHash' }))
-      assert.throws(() => NeonParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHashLittleEndian' }))
+      rpcResponse.value = EpicVaultParser.hexToBase64('61479ab68fd5c2c04b254f382d84ddf2f5c67ced111111111111')
+      assert.throws(() => EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHash' }))
+      assert.throws(() => EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Hash160', hint: 'ScriptHashLittleEndian' }))
     })
 
     it('parses BlockHash or TransactionId', async () => {
       const rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
-        value: NeonParser.hexToBase64(
-          NeonParser.reverseHex('0x6c513de791b17ddadec205a07301229ac890d71c16c1d5a0320c655fb69214fc'.substring(2)),
+        value: EpicVaultParser.hexToBase64(
+          EpicVaultParser.reverseHex('0x6c513de791b17ddadec205a07301229ac890d71c16c1d5a0320c655fb69214fc'.substring(2)),
         ),
       }
 
-      const blockHash = NeonParser.parseRpcResponse(rpcResponse, { type: 'Hash256', hint: 'BlockHash' })
-      const transactionId = NeonParser.parseRpcResponse(rpcResponse, { type: 'Hash256', hint: 'TransactionId' })
+      const blockHash = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Hash256', hint: 'BlockHash' })
+      const transactionId = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Hash256', hint: 'TransactionId' })
       assert.deepEqual(transactionId, '0x6c513de791b17ddadec205a07301229ac890d71c16c1d5a0320c655fb69214fc')
       assert.deepEqual(blockHash, transactionId)
 
       // There isn't a different on how they are returned right now
-      const hash256 = NeonParser.parseRpcResponse(rpcResponse, { type: 'Hash256' })
+      const hash256 = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Hash256' })
       assert.deepEqual(hash256, blockHash)
     })
 
     it('parses ByteString without parseConfig', async () => {
       const rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
-        value: NeonParser.asciiToBase64('Testing'),
+        value: EpicVaultParser.asciiToBase64('Testing'),
       }
 
-      const stringValue = NeonParser.parseRpcResponse(rpcResponse)
+      const stringValue = EpicVaultParser.parseRpcResponse(rpcResponse)
       assert.deepEqual(stringValue, 'Testing')
 
-      const bytesValue = NeonParser.parseRpcResponse(rpcResponse, { type: 'ByteArray' })
+      const bytesValue = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'ByteArray' })
       assert.deepEqual(bytesValue, '54657374696e67')
     })
 
     it('parses PublicKey', async () => {
       const rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
-        value: NeonParser.hexToBase64('03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c'),
+        value: EpicVaultParser.hexToBase64('03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c'),
       }
 
-      const scriptHash = NeonParser.parseRpcResponse(rpcResponse, { type: 'PublicKey' })
+      const scriptHash = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'PublicKey' })
       assert.deepEqual(scriptHash, '03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c')
     })
 
@@ -313,7 +313,7 @@ describe('NeonParser', function () {
         value: '18',
       }
 
-      const integer = NeonParser.parseRpcResponse(rpcResponse)
+      const integer = EpicVaultParser.parseRpcResponse(rpcResponse)
       assert.deepEqual(integer, 18)
     })
 
@@ -335,7 +335,7 @@ describe('NeonParser', function () {
           },
         ],
       }
-      let array = NeonParser.parseRpcResponse(rpcResponse, { type: 'Array', generic: { type: 'Integer' } })
+      let array = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Array', generic: { type: 'Integer' } })
       assert.deepEqual(array, [10, 20, 30])
 
       rpcResponse = {
@@ -343,51 +343,51 @@ describe('NeonParser', function () {
         value: [
           {
             type: 'ByteString',
-            value: NeonParser.strToBase64('test'),
+            value: EpicVaultParser.strToBase64('test'),
           },
           {
             type: 'ByteString',
-            value: NeonParser.strToBase64('array'),
+            value: EpicVaultParser.strToBase64('array'),
           },
           {
             type: 'ByteString',
-            value: NeonParser.strToBase64('return'),
+            value: EpicVaultParser.strToBase64('return'),
           },
         ],
       }
-      array = NeonParser.parseRpcResponse(rpcResponse, { type: 'Array', generic: { type: 'String' } })
+      array = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Array', generic: { type: 'String' } })
       assert.deepEqual(array, ['test', 'array', 'return'])
 
       // Will also work if you don't send a parseConfig and expects the ByteString results to be a String
-      assert.deepEqual(array, NeonParser.parseRpcResponse(rpcResponse))
+      assert.deepEqual(array, EpicVaultParser.parseRpcResponse(rpcResponse))
 
       rpcResponse = {
         type: 'Array',
         value: [
           {
             type: 'ByteString',
-            value: NeonParser.strToBase64('test'),
+            value: EpicVaultParser.strToBase64('test'),
           },
           {
             type: 'ByteString',
-            value: NeonParser.strToBase64('array'),
+            value: EpicVaultParser.strToBase64('array'),
           },
           {
             type: 'ByteString',
-            value: NeonParser.strToBase64('return'),
+            value: EpicVaultParser.strToBase64('return'),
           },
         ],
       }
-      array = NeonParser.parseRpcResponse(rpcResponse, { type: 'Array', generic: { type: 'ByteArray' } })
+      array = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Array', generic: { type: 'ByteArray' } })
       assert.deepEqual(array, ['74657374', '6172726179', '72657475726e'])
     })
 
     it('parses Union', async () => {
       let rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
-        value: NeonParser.strToBase64('test'),
+        value: EpicVaultParser.strToBase64('test'),
       }
-      let union = NeonParser.parseRpcResponse(rpcResponse, {
+      let union = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Any',
         union: [{ type: 'String' }, { type: 'Integer' }],
       })
@@ -397,7 +397,7 @@ describe('NeonParser', function () {
         type: 'Integer',
         value: '12',
       }
-      union = NeonParser.parseRpcResponse(rpcResponse, {
+      union = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Any',
         union: [{ type: 'String' }, { type: 'Integer' }],
       })
@@ -405,9 +405,9 @@ describe('NeonParser', function () {
 
       rpcResponse = {
         type: 'ByteString',
-        value: NeonParser.hexToBase64('61479ab68fd5c2c04b254f382d84ddf2f5c67ced'),
+        value: EpicVaultParser.hexToBase64('61479ab68fd5c2c04b254f382d84ddf2f5c67ced'),
       }
-      union = NeonParser.parseRpcResponse(rpcResponse, {
+      union = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Any',
         union: [{ type: 'Hash160', hint: 'ScriptHash' }, { type: 'Integer' }],
       })
@@ -417,12 +417,12 @@ describe('NeonParser', function () {
     it('parses same internal types with Union', async () => {
       const rpcResponse: RpcResponseStackItem = {
         type: 'ByteString',
-        value: NeonParser.strToBase64('test'),
+        value: EpicVaultParser.strToBase64('test'),
       }
 
       // It's not possible to definitly know the correct return of the same internal type, currently, it's only a ByteString problem,
       // so whenever there are multiple ByteStrings on a union it will be considerer as a String
-      const str = NeonParser.parseRpcResponse(rpcResponse, {
+      const str = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Any',
         union: [{ type: 'Hash160', hint: 'ScriptHash' }, { type: 'Hash256', hint: 'BlockHash' }, { type: 'Integer' }],
       })
@@ -439,15 +439,15 @@ describe('NeonParser', function () {
           },
           {
             type: 'ByteString',
-            value: NeonParser.strToBase64('test'),
+            value: EpicVaultParser.strToBase64('test'),
           },
           {
             type: 'ByteString',
-            value: NeonParser.strToBase64('parser'),
+            value: EpicVaultParser.strToBase64('parser'),
           },
         ],
       }
-      let array = NeonParser.parseRpcResponse(rpcResponse, {
+      let array = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Array',
         generic: {
           type: 'Any',
@@ -480,7 +480,7 @@ describe('NeonParser', function () {
           },
         ],
       }
-      array = NeonParser.parseRpcResponse(rpcResponse, {
+      array = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Array',
         generic: {
           type: 'Any',
@@ -505,33 +505,33 @@ describe('NeonParser', function () {
           {
             key: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('unit'),
+              value: EpicVaultParser.strToBase64('unit'),
             },
             value: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('test'),
+              value: EpicVaultParser.strToBase64('test'),
             },
           },
           {
             key: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('neo'),
+              value: EpicVaultParser.strToBase64('neo'),
             },
             value: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('parser'),
+              value: EpicVaultParser.strToBase64('parser'),
             },
           },
         ],
       }
-      const map = NeonParser.parseRpcResponse(rpcResponse, {
+      const map = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Map',
         genericKey: { type: 'String' },
         genericItem: { type: 'String' },
       })
       assert.deepEqual(map, { unit: 'test', neo: 'parser' })
       // Will also work if you don't send a parseConfig and expects the ByteString results to be a String
-      assert.deepEqual(map, NeonParser.parseRpcResponse(rpcResponse))
+      assert.deepEqual(map, EpicVaultParser.parseRpcResponse(rpcResponse))
     })
 
     it('parses multiple types Map', async () => {
@@ -541,17 +541,17 @@ describe('NeonParser', function () {
           {
             key: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('unit'),
+              value: EpicVaultParser.strToBase64('unit'),
             },
             value: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('test'),
+              value: EpicVaultParser.strToBase64('test'),
             },
           },
           {
             key: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('neo'),
+              value: EpicVaultParser.strToBase64('neo'),
             },
             value: {
               type: 'Integer',
@@ -570,7 +570,7 @@ describe('NeonParser', function () {
           },
         ],
       }
-      const map = NeonParser.parseRpcResponse(rpcResponse, {
+      const map = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Map',
         genericKey: { type: 'Any', union: [{ type: 'String' }, { type: 'Integer' }] },
         genericItem: { type: 'Any', union: [{ type: 'String' }, { type: 'Integer' }] },
@@ -584,15 +584,15 @@ describe('NeonParser', function () {
         value: true,
       }
 
-      let bool = NeonParser.parseRpcResponse(rpcResponse, { type: 'Boolean' })
+      let bool = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Boolean' })
       assert.deepEqual(bool, true)
-      bool = NeonParser.parseRpcResponse(rpcResponse)
+      bool = EpicVaultParser.parseRpcResponse(rpcResponse)
       assert.deepEqual(bool, true)
 
       rpcResponse.value = false
-      bool = NeonParser.parseRpcResponse(rpcResponse, { type: 'Boolean' })
+      bool = EpicVaultParser.parseRpcResponse(rpcResponse, { type: 'Boolean' })
       assert.deepEqual(bool, false)
-      bool = NeonParser.parseRpcResponse(rpcResponse)
+      bool = EpicVaultParser.parseRpcResponse(rpcResponse)
       assert.deepEqual(bool, false)
     })
 
@@ -604,7 +604,7 @@ describe('NeonParser', function () {
       }
 
       // currently can't parse an iterator
-      const iterator = NeonParser.parseRpcResponse(rpcResponse)
+      const iterator = EpicVaultParser.parseRpcResponse(rpcResponse)
       assert.deepEqual(iterator, undefined)
     })
 
@@ -615,21 +615,21 @@ describe('NeonParser', function () {
           {
             key: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('test'),
+              value: EpicVaultParser.strToBase64('test'),
             },
             value: {
               type: 'Array',
               value: [
-                { type: 'ByteString', value: NeonParser.strToBase64('abc') },
-                { type: 'ByteString', value: NeonParser.strToBase64('def') },
-                { type: 'ByteString', value: NeonParser.strToBase64('ghi') },
+                { type: 'ByteString', value: EpicVaultParser.strToBase64('abc') },
+                { type: 'ByteString', value: EpicVaultParser.strToBase64('def') },
+                { type: 'ByteString', value: EpicVaultParser.strToBase64('ghi') },
               ],
             },
           },
           {
             key: {
               type: 'ByteString',
-              value: NeonParser.strToBase64('neo'),
+              value: EpicVaultParser.strToBase64('neo'),
             },
             value: {
               type: 'Integer',
@@ -639,10 +639,10 @@ describe('NeonParser', function () {
         ],
       }
 
-      const map = NeonParser.parseRpcResponse(rpcResponse)
+      const map = EpicVaultParser.parseRpcResponse(rpcResponse)
       assert.deepEqual(map, { test: ['abc', 'def', 'ghi'], neo: 123 })
 
-      const mapWithConfig = NeonParser.parseRpcResponse(rpcResponse, {
+      const mapWithConfig = EpicVaultParser.parseRpcResponse(rpcResponse, {
         type: 'Map',
         genericKey: { type: 'String' },
         genericItem: { type: 'Any', union: [{ type: 'Integer' }, { type: 'Array', generic: { type: 'ByteArray' } }] },
@@ -654,27 +654,27 @@ describe('NeonParser', function () {
       const rpcResponseArray: RpcResponseStackItem = {
         type: 'Array',
         value: [
-          { type: 'ByteString', value: NeonParser.strToBase64('abc') },
+          { type: 'ByteString', value: EpicVaultParser.strToBase64('abc') },
           {
             type: 'Map',
             value: [
               {
-                key: { type: 'ByteString', value: NeonParser.strToBase64('neon') },
-                value: { type: 'ByteString', value: NeonParser.strToBase64('parser') },
+                key: { type: 'ByteString', value: EpicVaultParser.strToBase64('neon') },
+                value: { type: 'ByteString', value: EpicVaultParser.strToBase64('parser') },
               },
               {
-                key: { type: 'ByteString', value: NeonParser.strToBase64('unit') },
-                value: { type: 'ByteString', value: NeonParser.strToBase64('test') },
+                key: { type: 'ByteString', value: EpicVaultParser.strToBase64('unit') },
+                value: { type: 'ByteString', value: EpicVaultParser.strToBase64('test') },
               },
             ],
           },
-          { type: 'ByteString', value: NeonParser.strToBase64('def') },
+          { type: 'ByteString', value: EpicVaultParser.strToBase64('def') },
         ],
       }
-      let array = NeonParser.parseRpcResponse(rpcResponseArray)
+      let array = EpicVaultParser.parseRpcResponse(rpcResponseArray)
       assert.deepEqual(array, ['abc', { neon: 'parser', unit: 'test' }, 'def'])
 
-      array = NeonParser.parseRpcResponse(rpcResponseArray, {
+      array = EpicVaultParser.parseRpcResponse(rpcResponseArray, {
         type: 'Array',
         generic: {
           type: 'Any',
@@ -714,84 +714,84 @@ describe('NeonParser', function () {
         ],
       }
 
-      const parsed = NeonParser.parseRpcResponse(rpcResponse)
+      const parsed = EpicVaultParser.parseRpcResponse(rpcResponse)
       assert.deepEqual(parsed, { name: 'LIZARD', seed: 'dphNnS0kGxelyR4Q8ntrbA==' })
     })
   })
 
   describe('formatRpcArgument', () => {
     it('format numbers', async () => {
-      let numberArg = NeonParser.formatRpcArgument(0)
+      let numberArg = EpicVaultParser.formatRpcArgument(0)
       let expectedResult = { type: 'Integer', value: '0' }
       assert.deepStrictEqual(numberArg, expectedResult)
 
-      numberArg = NeonParser.formatRpcArgument(1)
+      numberArg = EpicVaultParser.formatRpcArgument(1)
       expectedResult = { type: 'Integer', value: '1' }
       assert.deepStrictEqual(numberArg, expectedResult)
 
-      numberArg = NeonParser.formatRpcArgument(123)
+      numberArg = EpicVaultParser.formatRpcArgument(123)
       expectedResult = { type: 'Integer', value: '123' }
       assert.deepStrictEqual(numberArg, expectedResult)
 
-      numberArg = NeonParser.formatRpcArgument(-10)
+      numberArg = EpicVaultParser.formatRpcArgument(-10)
       expectedResult = { type: 'Integer', value: '-10' }
       assert.deepStrictEqual(numberArg, expectedResult)
     })
 
     it('format boolean', async () => {
-      let booleanArg = NeonParser.formatRpcArgument(true)
+      let booleanArg = EpicVaultParser.formatRpcArgument(true)
       let expectedResult = { type: 'Boolean', value: true }
       assert.deepStrictEqual(booleanArg, expectedResult)
 
-      booleanArg = NeonParser.formatRpcArgument(false)
+      booleanArg = EpicVaultParser.formatRpcArgument(false)
       expectedResult = { type: 'Boolean', value: false }
       assert.deepStrictEqual(booleanArg, expectedResult)
     })
 
     it('format string', async () => {
-      let stringArg = NeonParser.formatRpcArgument('unit test')
+      let stringArg = EpicVaultParser.formatRpcArgument('unit test')
       let expectedResult = { type: 'String', value: 'unit test' }
       assert.deepStrictEqual(stringArg, expectedResult)
 
-      stringArg = NeonParser.formatRpcArgument('1234')
+      stringArg = EpicVaultParser.formatRpcArgument('1234')
       expectedResult = { type: 'String', value: '1234' }
       assert.deepStrictEqual(stringArg, expectedResult)
     })
 
     it('format ByteArray', async () => {
-      let byteArrayValue = NeonParser.strToHex('unit test')
-      let byteArrayArg = NeonParser.formatRpcArgument(byteArrayValue, { type: 'ByteArray' })
+      let byteArrayValue = EpicVaultParser.strToHex('unit test')
+      let byteArrayArg = EpicVaultParser.formatRpcArgument(byteArrayValue, { type: 'ByteArray' })
       let expectedResult = { type: 'ByteArray', value: byteArrayValue }
       assert.deepStrictEqual(byteArrayArg, expectedResult)
 
-      byteArrayValue = NeonParser.strToHex('another value 1234')
-      byteArrayArg = NeonParser.formatRpcArgument(byteArrayValue, { type: 'ByteArray' })
+      byteArrayValue = EpicVaultParser.strToHex('another value 1234')
+      byteArrayArg = EpicVaultParser.formatRpcArgument(byteArrayValue, { type: 'ByteArray' })
       expectedResult = { type: 'ByteArray', value: byteArrayValue }
       assert.deepStrictEqual(byteArrayArg, expectedResult)
 
       // Not passing a config will endup returning a String instead of a ByteArray
-      byteArrayArg = NeonParser.formatRpcArgument(byteArrayValue)
+      byteArrayArg = EpicVaultParser.formatRpcArgument(byteArrayValue)
       expectedResult = { type: 'ByteArray', value: byteArrayValue }
       assert.notDeepStrictEqual(byteArrayArg, expectedResult)
     })
 
     it('format Hash160', async () => {
-      let hash160Arg = NeonParser.formatRpcArgument('0xd2a4cff31913016155e38e474a2c06d08be276cf', { type: 'Hash160' })
+      let hash160Arg = EpicVaultParser.formatRpcArgument('0xbc8459660544656355b4f60861c22f544341e828', { type: 'Hash160' })
       let expectedResult = { type: 'Hash160', value: 'd2a4cff31913016155e38e474a2c06d08be276cf' }
       assert.deepStrictEqual(hash160Arg, expectedResult)
 
-      hash160Arg = NeonParser.formatRpcArgument('d2a4cff31913016155e38e474a2c06d08be276cf', { type: 'Hash160' })
+      hash160Arg = EpicVaultParser.formatRpcArgument('d2a4cff31913016155e38e474a2c06d08be276cf', { type: 'Hash160' })
       expectedResult = { type: 'Hash160', value: 'd2a4cff31913016155e38e474a2c06d08be276cf' }
       assert.deepStrictEqual(hash160Arg, expectedResult)
 
       // Not passing a config will endup returning a String instead of a Hash160
-      hash160Arg = NeonParser.formatRpcArgument('d2a4cff31913016155e38e474a2c06d08be276cf')
+      hash160Arg = EpicVaultParser.formatRpcArgument('d2a4cff31913016155e38e474a2c06d08be276cf')
       expectedResult = { type: 'Hash160', value: 'd2a4cff31913016155e38e474a2c06d08be276cf' }
       assert.notDeepStrictEqual(hash160Arg, expectedResult)
     })
 
     it('format Hash256', async () => {
-      let hash256Arg = NeonParser.formatRpcArgument(
+      let hash256Arg = EpicVaultParser.formatRpcArgument(
         '0xd2b24b57ea05821766877241a51e17eae06ed66a6c72adb5727f8ba701d995be',
         { type: 'Hash256' },
       )
@@ -801,20 +801,20 @@ describe('NeonParser', function () {
       }
       assert.deepStrictEqual(hash256Arg, expectedResult)
 
-      hash256Arg = NeonParser.formatRpcArgument('d2b24b57ea05821766877241a51e17eae06ed66a6c72adb5727f8ba701d995be', {
+      hash256Arg = EpicVaultParser.formatRpcArgument('d2b24b57ea05821766877241a51e17eae06ed66a6c72adb5727f8ba701d995be', {
         type: 'Hash256',
       })
       expectedResult = { type: 'Hash256', value: 'd2b24b57ea05821766877241a51e17eae06ed66a6c72adb5727f8ba701d995be' }
       assert.deepStrictEqual(hash256Arg, expectedResult)
 
       // Not passing a config will endup returning a String instead of a Hash256
-      hash256Arg = NeonParser.formatRpcArgument('d2b24b57ea05821766877241a51e17eae06ed66a6c72adb5727f8ba701d995be')
+      hash256Arg = EpicVaultParser.formatRpcArgument('d2b24b57ea05821766877241a51e17eae06ed66a6c72adb5727f8ba701d995be')
       expectedResult = { type: 'Hash256', value: 'd2b24b57ea05821766877241a51e17eae06ed66a6c72adb5727f8ba701d995be' }
       assert.notDeepStrictEqual(hash256Arg, expectedResult)
     })
 
     it('format PublicKey', async () => {
-      let publicKeyArg = NeonParser.formatRpcArgument(
+      let publicKeyArg = EpicVaultParser.formatRpcArgument(
         '035a928f201639204e06b4368b1a93365462a8ebbff0b8818151b74faab3a2b61a',
         { type: 'PublicKey' },
       )
@@ -824,13 +824,13 @@ describe('NeonParser', function () {
       }
       assert.deepStrictEqual(publicKeyArg, expectedResult)
 
-      publicKeyArg = NeonParser.formatRpcArgument('035a928f201639204e06b4368b1a93365462a8ebbff0b8818151b74faab3a2b61a')
+      publicKeyArg = EpicVaultParser.formatRpcArgument('035a928f201639204e06b4368b1a93365462a8ebbff0b8818151b74faab3a2b61a')
       assert.notDeepStrictEqual(publicKeyArg, expectedResult)
     })
 
     it('format array of primitive types', async () => {
-      let arrayArg = NeonParser.formatRpcArgument([1, 2, 3], { type: 'Array', generic: { type: 'Integer' } })
-      let arrayArgNoConfig = NeonParser.formatRpcArgument([1, 2, 3])
+      let arrayArg = EpicVaultParser.formatRpcArgument([1, 2, 3], { type: 'Array', generic: { type: 'Integer' } })
+      let arrayArgNoConfig = EpicVaultParser.formatRpcArgument([1, 2, 3])
       let expectedResult: any = {
         type: 'Array',
         value: [
@@ -842,8 +842,8 @@ describe('NeonParser', function () {
       assert.deepStrictEqual(arrayArg, expectedResult)
       assert.deepStrictEqual(arrayArg, arrayArgNoConfig)
 
-      arrayArg = NeonParser.formatRpcArgument([true, false], { type: 'Array', generic: { type: 'Boolean' } })
-      arrayArgNoConfig = NeonParser.formatRpcArgument([true, false])
+      arrayArg = EpicVaultParser.formatRpcArgument([true, false], { type: 'Array', generic: { type: 'Boolean' } })
+      arrayArgNoConfig = EpicVaultParser.formatRpcArgument([true, false])
       expectedResult = {
         type: 'Array',
         value: [
@@ -854,8 +854,8 @@ describe('NeonParser', function () {
       assert.deepStrictEqual(arrayArg, expectedResult)
       assert.deepStrictEqual(arrayArg, arrayArgNoConfig)
 
-      arrayArg = NeonParser.formatRpcArgument(['unit', 'test'], { type: 'Array', generic: { type: 'String' } })
-      arrayArgNoConfig = NeonParser.formatRpcArgument(['unit', 'test'])
+      arrayArg = EpicVaultParser.formatRpcArgument(['unit', 'test'], { type: 'Array', generic: { type: 'String' } })
+      arrayArgNoConfig = EpicVaultParser.formatRpcArgument(['unit', 'test'])
       expectedResult = {
         type: 'Array',
         value: [
@@ -866,11 +866,11 @@ describe('NeonParser', function () {
       assert.deepStrictEqual(arrayArg, expectedResult)
       assert.deepStrictEqual(arrayArg, arrayArgNoConfig)
 
-      arrayArg = NeonParser.formatRpcArgument(['756e6974', '74657374'], {
+      arrayArg = EpicVaultParser.formatRpcArgument(['756e6974', '74657374'], {
         type: 'Array',
         generic: { type: 'ByteArray' },
       })
-      arrayArgNoConfig = NeonParser.formatRpcArgument(['unit', 'test'])
+      arrayArgNoConfig = EpicVaultParser.formatRpcArgument(['unit', 'test'])
       expectedResult = {
         type: 'Array',
         value: [
@@ -883,8 +883,8 @@ describe('NeonParser', function () {
     })
 
     it('format map of primitive types', async () => {
-      let mapArg = NeonParser.formatRpcArgument({}, { type: 'Map' })
-      let mapArgNoConfig = NeonParser.formatRpcArgument({})
+      let mapArg = EpicVaultParser.formatRpcArgument({}, { type: 'Map' })
+      let mapArgNoConfig = EpicVaultParser.formatRpcArgument({})
       let expectedResult = {
         type: 'Map',
         value: [] as any[],
@@ -892,11 +892,11 @@ describe('NeonParser', function () {
       assert.deepStrictEqual(mapArg, expectedResult)
       assert.deepStrictEqual(mapArg, mapArgNoConfig)
 
-      mapArg = NeonParser.formatRpcArgument(
+      mapArg = EpicVaultParser.formatRpcArgument(
         { unit: 'test', neon: 'parser', neo3: 'parser' },
         { type: 'Map', genericKey: { type: 'String' }, genericItem: { type: 'String' } },
       )
-      mapArgNoConfig = NeonParser.formatRpcArgument({ unit: 'test', neon: 'parser', neo3: 'parser' })
+      mapArgNoConfig = EpicVaultParser.formatRpcArgument({ unit: 'test', neon: 'parser', neo3: 'parser' })
       expectedResult = {
         type: 'Map',
         value: [
@@ -935,11 +935,11 @@ describe('NeonParser', function () {
       assert.deepStrictEqual(mapArg, expectedResult)
       assert.deepStrictEqual(mapArg, mapArgNoConfig)
 
-      mapArg = NeonParser.formatRpcArgument(
+      mapArg = EpicVaultParser.formatRpcArgument(
         { true: true, false: false },
         { type: 'Map', genericKey: { type: 'Boolean' }, genericItem: { type: 'Boolean' } },
       )
-      mapArgNoConfig = NeonParser.formatRpcArgument({ true: true, false: false })
+      mapArgNoConfig = EpicVaultParser.formatRpcArgument({ true: true, false: false })
       expectedResult = {
         type: 'Map',
         value: [
@@ -968,11 +968,11 @@ describe('NeonParser', function () {
       assert.deepStrictEqual(mapArg, expectedResult)
       assert.notDeepStrictEqual(mapArg, mapArgNoConfig)
 
-      mapArg = NeonParser.formatRpcArgument(
+      mapArg = EpicVaultParser.formatRpcArgument(
         { 98765: 12345 },
         { type: 'Map', genericKey: { type: 'Integer' }, genericItem: { type: 'Integer' } },
       )
-      mapArgNoConfig = NeonParser.formatRpcArgument({ 98765: 12345 })
+      mapArgNoConfig = EpicVaultParser.formatRpcArgument({ 98765: 12345 })
       expectedResult = {
         type: 'Map',
         value: [
@@ -991,11 +991,11 @@ describe('NeonParser', function () {
       assert.deepStrictEqual(mapArg, expectedResult)
       assert.notDeepStrictEqual(mapArg, mapArgNoConfig)
 
-      mapArg = NeonParser.formatRpcArgument(
-        { '627974654172726179': NeonParser.strToHex('unit test') },
+      mapArg = EpicVaultParser.formatRpcArgument(
+        { '627974654172726179': EpicVaultParser.strToHex('unit test') },
         { type: 'Map', genericKey: { type: 'ByteArray' }, genericItem: { type: 'ByteArray' } },
       )
-      mapArgNoConfig = NeonParser.formatRpcArgument({ '627974654172726179': NeonParser.strToHex('unit test') })
+      mapArgNoConfig = EpicVaultParser.formatRpcArgument({ '627974654172726179': EpicVaultParser.strToHex('unit test') })
       expectedResult = {
         type: 'Map',
         value: [
@@ -1016,28 +1016,28 @@ describe('NeonParser', function () {
     })
 
     it('format Any', async () => {
-      let anyArg = NeonParser.formatRpcArgument(12345, { type: 'Any' })
+      let anyArg = EpicVaultParser.formatRpcArgument(12345, { type: 'Any' })
       let expectedResult: any = {
         type: 'Integer',
         value: '12345',
       }
       assert.deepStrictEqual(anyArg, expectedResult)
 
-      anyArg = NeonParser.formatRpcArgument(false, { type: 'Any' })
+      anyArg = EpicVaultParser.formatRpcArgument(false, { type: 'Any' })
       expectedResult = {
         type: 'Boolean',
         value: false,
       }
       assert.deepStrictEqual(anyArg, expectedResult)
 
-      anyArg = NeonParser.formatRpcArgument('unit test', { type: 'Any' })
+      anyArg = EpicVaultParser.formatRpcArgument('unit test', { type: 'Any' })
       expectedResult = {
         type: 'String',
         value: 'unit test',
       }
       assert.deepStrictEqual(anyArg, expectedResult)
 
-      anyArg = NeonParser.formatRpcArgument([1, 2], { type: 'Any' })
+      anyArg = EpicVaultParser.formatRpcArgument([1, 2], { type: 'Any' })
       expectedResult = {
         type: 'Array',
         value: [
@@ -1047,7 +1047,7 @@ describe('NeonParser', function () {
       }
       assert.deepStrictEqual(anyArg, expectedResult)
 
-      anyArg = NeonParser.formatRpcArgument(null, { type: 'Any' })
+      anyArg = EpicVaultParser.formatRpcArgument(null, { type: 'Any' })
       expectedResult = { type: 'Any', value: null }
       assert.deepStrictEqual(anyArg, expectedResult)
     })

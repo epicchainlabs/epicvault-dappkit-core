@@ -1,13 +1,13 @@
 import { ChildProcess, spawn, execSync } from 'child_process'
-import { ContractInvocationMulti } from '@cityofzion/neon-dappkit-types'
-import { NeonEventListener, NeonInvoker, NeonParser, TypeChecker } from '../src/index'
+import { ContractInvocationMulti } from '@epicchain/epicvault-dappkit-types'
+import { EpicVaultEventListener, EpicVaultInvoker, EpicVaultParser, TypeChecker } from '../src/index'
 import assert from 'assert'
 import * as path from 'path'
-import { tx, u } from '@cityofzion/neon-js'
-import { wallet } from '@cityofzion/neon-core'
+import { tx, u } from '@epicchain/epicvault-js'
+import { wallet } from '@epicchain/epicvault-core'
 import {
   wait,
-  neoGoPath,
+  epicchainGoPath,
   getDataDir,
   getBalance,
   toDecimal,
@@ -15,22 +15,22 @@ import {
   rpcAddress,
   gasScriptHash,
   waitTime,
-  neonEventListenerOptions,
-  neoScriptHash,
+  EpicVaultEventListenerOptions,
+  epicchainScriptHash,
 } from './helper'
 
-describe('NeonInvoker', function () {
+describe('EpicVaultInvoker', function () {
   this.timeout(60000)
   let childProcess: ChildProcess
   let account1: wallet.Account
   let account2: wallet.Account
-  const neonEventListener = new NeonEventListener(rpcAddress, neonEventListenerOptions)
+  const EpicVaultEventListener = new EpicVaultEventListener(rpcAddress, EpicVaultEventListenerOptions)
   const verifiableContract = '0x1b0146e719219b77e70b654aeb23f82b25f8abca'
   const testReturnContract = '0x5d564a6ee553234ff7a32c7cc2e188d3086d4892'
   const testReturnMapContract = '0x3b2244fc8c13644048040c8e4aa6562365658def'
 
   beforeEach(async function () {
-    const neoGo = neoGoPath()
+    const neoGo = epicchainGoPath()
     const dataDir = getDataDir()
 
     childProcess = spawn(
@@ -70,7 +70,7 @@ describe('NeonInvoker', function () {
   })
 
   it('does invokeFunction', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
       account: account1,
     })
@@ -86,10 +86,10 @@ describe('NeonInvoker', function () {
     const privateAccount = account1
     const publicAccount = new wallet.Account(privateAccount.publicKey)
 
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
       signingCallback: async (transaction, details) => {
-        const hex = NeonParser.numToHex(details.network, 4, true) + NeonParser.reverseHex(transaction.hash())
+        const hex = EpicVaultParser.numToHex(details.network, 4, true) + EpicVaultParser.reverseHex(transaction.hash())
         return wallet.sign(hex, privateAccount.privateKey)
       },
       account: publicAccount,
@@ -110,13 +110,13 @@ describe('NeonInvoker', function () {
     await wait(waitTime)
   })
 
-  it('can sign and invoke using different NeonInvokers/accounts', async () => {
+  it('can sign and invoke using different EpicVaultInvokers/accounts', async () => {
     const accountPayer = account1
     const accountOwner = account2
 
     // TEST WITH BOTH ACCOUNTS ON THE SAME INVOKER
 
-    const invokerBoth = await NeonInvoker.init({
+    const invokerBoth = await EpicVaultInvoker.init({
       rpcAddress,
       account: [accountPayer, accountOwner],
     })
@@ -142,12 +142,12 @@ describe('NeonInvoker', function () {
 
     // TEST WITH EACH ACCOUNT ON A DIFFERENT INVOKER
 
-    const invokerPayer = await NeonInvoker.init({
+    const invokerPayer = await EpicVaultInvoker.init({
       rpcAddress,
       account: accountPayer,
     })
 
-    const invokerOwner = await NeonInvoker.init({
+    const invokerOwner = await EpicVaultInvoker.init({
       rpcAddress,
       account: accountOwner,
     })
@@ -195,22 +195,22 @@ describe('NeonInvoker', function () {
     await wait(waitTime)
   })
 
-  it('can sign and invoke with signingCallback using different NeonInvokers/accounts', async () => {
+  it('can sign and invoke with signingCallback using different EpicVaultInvokers/accounts', async () => {
     const privateAccount = account1
     const accountSignCallback = new wallet.Account(account1.publicKey)
 
     const accountSignPrivKey = account2
 
-    const invokerSignCallback = await NeonInvoker.init({
+    const invokerSignCallback = await EpicVaultInvoker.init({
       rpcAddress,
       signingCallback: async (transaction, details) => {
-        const hex = NeonParser.numToHex(details.network, 4, true) + NeonParser.reverseHex(transaction.hash())
+        const hex = EpicVaultParser.numToHex(details.network, 4, true) + EpicVaultParser.reverseHex(transaction.hash())
         return wallet.sign(hex, privateAccount.privateKey)
       },
       account: accountSignCallback,
     })
 
-    const invokerSignPrivKey = await NeonInvoker.init({
+    const invokerSignPrivKey = await EpicVaultInvoker.init({
       rpcAddress,
       account: accountSignPrivKey,
     })
@@ -253,7 +253,7 @@ describe('NeonInvoker', function () {
 
     assert(txId.length > 0, 'has txId')
 
-    const appLog = await neonEventListener.waitForApplicationLog(txId)
+    const appLog = await EpicVaultEventListener.waitForApplicationLog(txId)
     assert(
       appLog.executions[0].stack[0].value === true,
       `transfer was not successful (${appLog.executions[0].stack[0].value})`,
@@ -262,7 +262,7 @@ describe('NeonInvoker', function () {
 
   it('add accounts and witnesses to verify smart contracts', async () => {
     const account = account1
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
       account,
     })
@@ -271,12 +271,12 @@ describe('NeonInvoker', function () {
     const verifyTrueSmartContract = verifiableContract
 
     // NeoToken smart contract, we are not verified
-    const verifyFalseSmartContract = neoScriptHash
+    const verifyFalseSmartContract = epicchainScriptHash
 
     const txIdVerifyTrue = await invoker.invokeFunction({
       invocations: [
         {
-          scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+          scriptHash: '0xbc8459660544656355b4f60861c22f544341e828',
           operation: 'totalSupply',
           args: [],
         },
@@ -301,7 +301,7 @@ describe('NeonInvoker', function () {
       invoker.invokeFunction({
         invocations: [
           {
-            scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+            scriptHash: '0xbc8459660544656355b4f60861c22f544341e828',
             operation: 'totalSupply',
             args: [],
           },
@@ -324,12 +324,12 @@ describe('NeonInvoker', function () {
     const accountPayer = account1
     const accountOwner = account2
 
-    const invokerPayer = await NeonInvoker.init({
+    const invokerPayer = await EpicVaultInvoker.init({
       rpcAddress,
       account: accountPayer,
     })
 
-    const invokerOwner = await NeonInvoker.init({
+    const invokerOwner = await EpicVaultInvoker.init({
       rpcAddress,
       account: accountOwner,
     })
@@ -354,7 +354,7 @@ describe('NeonInvoker', function () {
         ...bt,
         invocations: [
           {
-            scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+            scriptHash: '0xbc8459660544656355b4f60861c22f544341e828',
             operation: 'transfer',
             args: [
               { type: 'Hash160', value: accountPayer.address },
@@ -370,7 +370,7 @@ describe('NeonInvoker', function () {
 
   it('does calculateFee', async () => {
     const account = account1
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
       account,
     })
@@ -378,7 +378,7 @@ describe('NeonInvoker', function () {
     const param: ContractInvocationMulti = {
       invocations: [
         {
-          scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+          scriptHash: '0xbc8459660544656355b4f60861c22f544341e828',
           operation: 'transfer',
           args: [
             { type: 'Hash160', value: account.address },
@@ -443,14 +443,14 @@ describe('NeonInvoker', function () {
   })
 
   it('does testInvoke', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
     const resp = await invoker.testInvoke({
       invocations: [
         {
-          scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+          scriptHash: '0xbc8459660544656355b4f60861c22f544341e828',
           operation: 'symbol',
         },
       ],
@@ -465,7 +465,7 @@ describe('NeonInvoker', function () {
   })
 
   it('can throw an error if testInvoke state is FAULT', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
@@ -473,7 +473,7 @@ describe('NeonInvoker', function () {
       invoker.testInvoke({
         invocations: [
           {
-            scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+            scriptHash: '0xbc8459660544656355b4f60861c22f544341e828',
             operation: 'transfer',
             args: [
               { type: 'Hash160', value: 'NbnjKGMBJzJ6j5PHeYhjJDaQ5Vy5UYu4Fv' },
@@ -487,7 +487,7 @@ describe('NeonInvoker', function () {
   })
 
   it('handles integer return', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
@@ -521,7 +521,7 @@ describe('NeonInvoker', function () {
   })
 
   it('handles boolean return', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
@@ -574,7 +574,7 @@ describe('NeonInvoker', function () {
   })
 
   it('handles boolean return (again)', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
@@ -627,7 +627,7 @@ describe('NeonInvoker', function () {
   })
 
   it('handles array return', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
@@ -667,7 +667,7 @@ describe('NeonInvoker', function () {
   })
 
   it('handles bytestring return', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
@@ -701,7 +701,7 @@ describe('NeonInvoker', function () {
   })
 
   it('handles array return (again)', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
@@ -741,7 +741,7 @@ describe('NeonInvoker', function () {
   })
 
   it('handles map return', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
     })
 
@@ -785,7 +785,7 @@ describe('NeonInvoker', function () {
   })
 
   it('checks if the bytearray arg value is hex or base64', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
       account: account1,
     })
@@ -899,7 +899,7 @@ describe('NeonInvoker', function () {
   })
 
   it('tests invalid bytearray args', async () => {
-    const invoker = await NeonInvoker.init({
+    const invoker = await EpicVaultInvoker.init({
       rpcAddress,
       account: account1,
     })

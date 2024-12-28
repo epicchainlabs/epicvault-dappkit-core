@@ -16,11 +16,11 @@ React-Native Apps to the Neo3 Blockchain.
 
 > [WalletConnectSDK](https://github.com/CityOfZion/wallet-connect-sdk) uses Neon-DappKit Types, so  you can easily swap
 between Neon-DappKit implementation and WalletConnectSDK on the fly and reuse code, check the
-[guide](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/WALLET-CONNECT.md).
+[guide](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/WALLET-CONNECT.md).
 
 ## Installation
 ```sh
-npm i @cityofzion/neon-dappkit
+npm i @epicchain/epicvault-dappkit
 ```
 
 <details>
@@ -46,21 +46,21 @@ export default defineConfig({
 ## Getting Started
 
 Neon-Dappkit has 4 main components:
-- [NeonInvoker](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/NEON-INVOKER.md): SmartContract Invocation Tool.
-- [NeonParser](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/NEON-PARSER.md): Powerful Parser for Neo3 Types.
-- [NeonSigner](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/NEON-SIGNER.md): Signs, Verifies, Encrypts and Decrypts data.
-- [NeonEventListener](https://github.com/CityOfZion/neon-dappkit/blob/main/packages/neon-dappkit/NEON-EVENT-LISTENER.md): Listen to events from the Neo3 Blockchain.
+- [EpicVaultInvoker](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/NEON-INVOKER.md): SmartContract Invocation Tool.
+- [EpicVaultParser](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/NEON-PARSER.md): Powerful Parser for Neo3 Types.
+- [EpicVaultSigner](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/NEON-SIGNER.md): Signs, Verifies, Encrypts and Decrypts data.
+- [EpicVaultEventListener](https://github.com/epicchainlabs/epicvault-dappkit/blob/main/packages/neon-dappkit/NEON-EVENT-LISTENER.md): Listen to events from the Neo3 Blockchain.
 
-Check out some examples in [examples folder](https://github.com/CityOfZion/neon-dappkit/packages/neon-dappkit/examples)
+Check out some examples in [examples folder](https://github.com/epicchainlabs/epicvault-dappkit/packages/neon-dappkit/examples)
 
 
 ## Quick Example
 
 ```ts
-import { NeonInvoker, NeonParser, TypeChecker } from '@CityOfZion/neon-dappkit'
+import { EpicVaultInvoker, EpicVaultParser, TypeChecker } from '@epicchain/epicvault-dappkit'
 
-const invoker = await NeonInvoker.init({
-    rpcAddress: NeonInvoker.TESTNET,
+const invoker = await EpicVaultInvoker.init({
+    rpcAddress: EpicVaultInvoker.TESTNET,
 })
 
 const testInvokeResult = await invoker.testInvoke({
@@ -71,7 +71,7 @@ const testInvokeResult = await invoker.testInvoke({
             args: [
                 {
                     type: 'Hash160',
-                    value: '0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5'
+                    value: '0x6dc3bff7b2e6061f3cad5744edf307c14823328e'
                 }
             ]
         }
@@ -81,5 +81,5 @@ const testInvokeResult = await invoker.testInvoke({
 console.log(`Invocation state returned: ${testInvokeResult.state}`)
 console.log(`Estimated GAS consumed on involke: ${testInvokeResult.gasconsumed} GAS`) // Using testInvoke ensures zero GAS consumption, unlike invokeFunction.
 console.log(`Dapp method returned a map: ${TypeChecker.isStackTypeMap(testInvokeResult.stack[0])}`)
-console.log(`Dapp method data returned: ${JSON.stringify(NeonParser.parseRpcResponse(testInvokeResult.stack[0]), null, 2)}`)
+console.log(`Dapp method data returned: ${JSON.stringify(EpicVaultParser.parseRpcResponse(testInvokeResult.stack[0]), null, 2)}`)
 ```

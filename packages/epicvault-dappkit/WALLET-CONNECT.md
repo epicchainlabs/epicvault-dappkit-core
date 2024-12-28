@@ -1,26 +1,26 @@
 # Using Neon-DappKit and WalletConnectSDK together
 
-## With NeonInvoker
+## With EpicVaultInvoker
 Pre-requisites:
 - Setup WalletConnectSDK following the [documentation](https://github.com/CityOfZion/wallet-connect-sdk)
-- Setup NeonInvoker following the [documentation](./NEON-INVOKER.md)
+- Setup EpicVaultInvoker following the [documentation](./NEON-INVOKER.md)
 
-Now you can use the `Neo3Invoker` interface to abstract which implementation you are using. Check the example:
+Now you can use the `EpicChainInvoker` interface to abstract which implementation you are using. Check the example:
 ```ts
-import { NeonInvoker, Neo3Invoker } from '@cityofzion/neon-dappkit'
+import { EpicVaultInvoker, EpicChainInvoker } from '@epicchain/epicvault-dappkit'
 
-let neonInvoker: Neo3Invoker
-let wcSdk: Neo3Invoker
+let EpicVaultInvoker: EpicChainInvoker
+let wcSdk: EpicChainInvoker
 
 async function init() {
-    // initialize neonInvoker and wcSdk
+    // initialize EpicVaultInvoker and wcSdk
 }
 
-function getInvoker(): Neo3Invoker {
+function getInvoker(): EpicChainInvoker {
   if (wcSdk.isConnected()) {
     return wcSdk
   } else {
-    return neonInvoker
+    return EpicVaultInvoker
   }
 }
 
@@ -29,7 +29,7 @@ async function getBalance() {
   
   const resp = await invoker.testInvoke({
         invocations: [{
-            scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf', // GAS token
+            scriptHash: '0xbc8459660544656355b4f60861c22f544341e828', // GAS token
             operation: 'balanceOf',
             args: [
                 { type: 'Address', value: 'NhGomBpYnKXArr55nHRQ5rzy79TwKVXZbr' }
@@ -40,27 +40,27 @@ async function getBalance() {
 }
 ```
 
-## With NeonSigner
+## With EpicVaultSigner
 Pre-requisites:
 - Setup WalletConnectSDK following the [documentation](https://github.com/CityOfZion/wallet-connect-sdk)
-- Setup NeonSigner following the [documentation](./NEON-SIGNER.md)
+- Setup EpicVaultSigner following the [documentation](./NEON-SIGNER.md)
 
-Now you can use the `Neo3Signer` interface to abstract which implementation you are using. Check the example:
+Now you can use the `EpicChainSigner` interface to abstract which implementation you are using. Check the example:
 ```ts
-import { NeonSigner, Neo3Signer } from '@cityofzion/neon-dappkit'
+import { EpicVaultSigner, EpicChainSigner } from '@epicchain/epicvault-dappkit'
 
-let neonSigner: Neo3Signer
-let wcSdk: Neo3Signer
+let EpicVaultSigner: EpicChainSigner
+let wcSdk: EpicChainSigner
 
 async function init() {
-    // initialize neonSigner and wcSdk
+    // initialize EpicVaultSigner and wcSdk
 }
 
-function getSigner(): Neo3Signer {
+function getSigner(): EpicChainSigner {
   if (wcSdk.isConnected()) {
     return wcSdk
   } else {
-    return neonSigner
+    return EpicVaultSigner
   }
 }
 

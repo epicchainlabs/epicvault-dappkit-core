@@ -1,6 +1,6 @@
-import { Arg, RpcResponseStackItem } from './Neo3Invoker'
+import { Arg, RpcResponseStackItem } from './EpicChainInvoker'
 
-export interface Neo3Parser {
+export interface EpicChainParser {
   /**
    * Converts an ArrayBuffer to an ASCII string.
    * @param buf
@@ -8,7 +8,7 @@ export interface Neo3Parser {
    * @example
    * const encoder = new TextEncoder()
    * const arrayBuffer = encoder.encode('unit test')
-   * console.log(Neo3Parser.abToStr(arrayBuffer))
+   * console.log(EpicChainParser.abToStr(arrayBuffer))
    * // unit test
    */
   abToStr: (buf: ArrayBuffer | ArrayLike<number>) => string
@@ -17,7 +17,7 @@ export interface Neo3Parser {
    * @param str
    *
    * @example
-   * const arrayBuffer = Neo3Parser.strToAb('unit test')
+   * const arrayBuffer = EpicChainParser.strToAb('unit test')
    * console.log(arrayBuffer)
    * // Uint8Array(9) [117, 110, 105, 116, 32, 116, 101, 115, 116]
    */
@@ -27,7 +27,7 @@ export interface Neo3Parser {
    * @param str
    *
    * @example
-   * const arrayBuffer = Neo3Parser.hexToAb('756e69742074657374')
+   * const arrayBuffer = EpicChainParser.hexToAb('756e69742074657374')
    * console.log(arrayBuffer)
    * // Uint8Array(9) [117, 110, 105, 116, 32, 116, 101, 115, 116]
    */
@@ -39,7 +39,7 @@ export interface Neo3Parser {
    * @example
    * const encoder = new TextEncoder()
    * const arrayBuffer = encoder.encode('unit test')
-   * console.log(Neo3Parser.abToHex(arrayBuffer))
+   * console.log(EpicChainParser.abToHex(arrayBuffer))
    * // 756e69742074657374
    */
   abToHex: (arr: ArrayBuffer | ArrayLike<number>) => string
@@ -48,7 +48,7 @@ export interface Neo3Parser {
    * @param str
    *
    * @example
-   * const hexString = Neo3Parser.strToHex('unit test')
+   * const hexString = EpicChainParser.strToHex('unit test')
    * console.log(hexString)
    * // 756e69742074657374
    */
@@ -58,7 +58,7 @@ export interface Neo3Parser {
    * @param hexstring
    *
    * @example
-   * const str = Neo3Parser.hexToStr('756e69742074657374')
+   * const str = EpicChainParser.hexToStr('756e69742074657374')
    * console.log(str)
    * // unit test
    */
@@ -68,7 +68,7 @@ export interface Neo3Parser {
    * @param num
    *
    * @example
-   * const hexString = Neo3Parser.intToHex(512)
+   * const hexString = EpicChainParser.intToHex(512)
    * console.log(hexString)
    * // 0200
    */
@@ -80,13 +80,13 @@ export interface Neo3Parser {
    * @param littleEndian - encode the hex in little endian form
    *
    * @example
-   * console.log(Neo3Parser.numToHex(513))
+   * console.log(EpicChainParser.numToHex(513))
    * // 01
    *
-   * console.log(Neo3Parser.numToHex(513, 2))
+   * console.log(EpicChainParser.numToHex(513, 2))
    * // 0201
    *
-   * console.log(Neo3Parser.numToHex(513, 2, true))
+   * console.log(EpicChainParser.numToHex(513, 2, true))
    * // 0102
    */
   numToHex: (num: number, size?: number, littleEndian?: boolean) => string
@@ -95,19 +95,19 @@ export interface Neo3Parser {
    * @param num
    *
    * @example
-   * console.log(Neo3Parser.numToVarInt(16))
+   * console.log(EpicChainParser.numToVarInt(16))
    * // 10
    *
-   * console.log(Neo3Parser.numToVarInt(512))
+   * console.log(EpicChainParser.numToVarInt(512))
    * // fd0002
    *
-   * console.log(Neo3Parser.numToVarInt(65535))
+   * console.log(EpicChainParser.numToVarInt(65535))
    * // fdffff
    *
-   * console.log(Neo3Parser.numToVarInt(4294967295))
+   * console.log(EpicChainParser.numToVarInt(4294967295))
    * // feffffffff
    *
-   * console.log(Neo3Parser.numToVarInt(4294967296))
+   * console.log(EpicChainParser.numToVarInt(4294967296))
    * // ff0000000001000000
    */
   numToVarInt: (num: number) => string
@@ -116,7 +116,7 @@ export interface Neo3Parser {
    * @param input
    *
    * @example
-   * const base64String = Neo3Parser.hexToBase64('756e69742074657374')
+   * const base64String = EpicChainParser.hexToBase64('756e69742074657374')
    * console.log(base64String)
    * // dW5pdCB0ZXN0
    */
@@ -126,7 +126,7 @@ export interface Neo3Parser {
    * @param input
    *
    * @example
-   * const hexString = Neo3Parser.base64ToHex('dW5pdCB0ZXN0')
+   * const hexString = EpicChainParser.base64ToHex('dW5pdCB0ZXN0')
    * console.log(base64String)
    * // 756e69742074657374
    */
@@ -136,7 +136,7 @@ export interface Neo3Parser {
    * @param input
    *
    * @example
-   * const base64String = Neo3Parser.utf8ToBase64('unit test')
+   * const base64String = EpicChainParser.utf8ToBase64('unit test')
    * console.log(base64String)
    * // dW5pdCB0ZXN0
    */
@@ -146,7 +146,7 @@ export interface Neo3Parser {
    * @param input
    *
    * @example
-   * const base64String = Neo3Parser.asciiToBase64('unit test')
+   * const base64String = EpicChainParser.asciiToBase64('unit test')
    * console.log(base64String)
    * // dW5pdCB0ZXN0
    */
@@ -156,7 +156,7 @@ export interface Neo3Parser {
    * @param input
    *
    * @example
-   * const utf8String = Neo3Parser.base64ToUtf8('VVRGLTggU3RyaW5nIMOhw6PDoMOn')
+   * const utf8String = EpicChainParser.base64ToUtf8('VVRGLTggU3RyaW5nIMOhw6PDoMOn')
    * console.log(utf8String)
    * // UTF-8 String áãàç
    */
@@ -166,12 +166,12 @@ export interface Neo3Parser {
    * @param input
    *
    * @example
-   * const scriptHash = Neo3Parser.accountInputToScripthash('NNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs')
+   * const scriptHash = EpicChainParser.accountInputToScripthash('NNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs')
    * console.log(scriptHash)
    * // a5de523ae9d99be784a536e9412b7a3cbe049e1a
    *
    * @example
-   * const scriptHash = Neo3Parser.accountInputToScripthash('03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c')
+   * const scriptHash = EpicChainParser.accountInputToScripthash('03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c')
    * console.log(scriptHash)
    * // a5de523ae9d99be784a536e9412b7a3cbe049e1a
    */
@@ -181,7 +181,7 @@ export interface Neo3Parser {
    * @param input The string to convert
    *
    * @example
-   * const base64String = Neo3Parser.strToBase64('unit test')
+   * const base64String = EpicChainParser.strToBase64('unit test')
    * console.log(base64String)
    * // dW5pdCB0ZXN0
    */
@@ -191,12 +191,12 @@ export interface Neo3Parser {
    * @param input
    *
    * @example
-   * const address = Neo3Parser.accountInputToAddress('a5de523ae9d99be784a536e9412b7a3cbe049e1a')
+   * const address = EpicChainParser.accountInputToAddress('a5de523ae9d99be784a536e9412b7a3cbe049e1a')
    * console.log(address)
    * // NNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs
    *
    * @example
-   * const address = Neo3Parser.accountInputToAddress('03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c')
+   * const address = EpicChainParser.accountInputToAddress('03cdb067d930fd5adaa6c68545016044aaddec64ba39e548250eaea551172e535c')
    * console.log(address)
    * // NNLi44dJNXtDNSBkofB48aTVYtb1zZrNEs
    */
@@ -206,7 +206,7 @@ export interface Neo3Parser {
    * @param input
    *
    * @example
-   * const reversedHexString = Neo3Parser.reverseHex('abcdef')
+   * const reversedHexString = EpicChainParser.reverseHex('abcdef')
    * console.log(reversedHexString)
    * // efcdab
    */
@@ -220,7 +220,7 @@ export interface Neo3Parser {
    *   type: 'ByteString',
    *   value: 'dW5pdCB0ZXN0'
    * }
-   * const parsed = Neo3Parser.parseRpcResponse(stringResponse)
+   * const parsed = EpicChainParser.parseRpcResponse(stringResponse)
    * console.log(parsed)
    * // unit test
    *
@@ -229,7 +229,7 @@ export interface Neo3Parser {
    *   type: 'ByteString',
    *   value: 'YUeato/VwsBLJU84LYTd8vXGfO0='
    * }
-   * const parsed = Neo3Parser.parseRpcResponse(scriptHashResponse, { type: 'Hash160' })
+   * const parsed = EpicChainParser.parseRpcResponse(scriptHashResponse, { type: 'Hash160' })
    * console.log(parsed)
    * // 0xed7cc6f5f2dd842d384f254bc0c2d58fb69a4761
    *
@@ -238,7 +238,7 @@ export interface Neo3Parser {
    *   type: 'ByteString',
    *   value: 'dW5pdCB0ZXN0'
    * }
-   * const parsed = Neo3Parser.parseRpcResponse(bytesResponse, { type: 'ByteArray' })
+   * const parsed = EpicChainParser.parseRpcResponse(bytesResponse, { type: 'ByteArray' })
    * console.log(parsed)
    * // 756e69742074657374
    *
@@ -247,7 +247,7 @@ export interface Neo3Parser {
    *   type: 'Integer',
    *   value: '18'
    * }
-   * const parsed = Neo3Parser.parseRpcResponse(integerResponse)
+   * const parsed = EpicChainParser.parseRpcResponse(integerResponse)
    * console.log(parsed)
    * // 18
    *
@@ -269,7 +269,7 @@ export interface Neo3Parser {
    *     },
    *   ]
    * }
-   * const parsed = Neo3Parser.parseRpcResponse(arrayResponse, { type: 'Array', generic: { type: 'Integer' } })
+   * const parsed = EpicChainParser.parseRpcResponse(arrayResponse, { type: 'Array', generic: { type: 'Integer' } })
    * console.log(parsed)
    * // [10, 20, 30]
    *
@@ -297,9 +297,9 @@ export interface Neo3Parser {
    *     },
    *   ]
    * }
-   * const parsed = Neo3Parser.parseRpcResponse(mapResponse, { type: 'Map', genericKey: { type: 'String' }, genericItem: { type: 'String' } })
+   * const parsed = EpicChainParser.parseRpcResponse(mapResponse, { type: 'Map', genericKey: { type: 'String' }, genericItem: { type: 'String' } })
    * console.log(parsed)
-   * // { unit: 'test', neo3: 'parser' }
+   * // { unit: 'test', epicchain: 'parser' }
    */
   parseRpcResponse: (field: RpcResponseStackItem, parseConfig?: ParseConfig) => any
   /**
@@ -308,39 +308,39 @@ export interface Neo3Parser {
    * @param parseConfig how to format the argument
    *
    * @example
-   * const formattedNumber = Neo3Parser.formatRpcArgument(123)
+   * const formattedNumber = EpicChainParser.formatRpcArgument(123)
    * console.log(formattedNumber)
    * // { type: 'Integer', value: '123' }
    *
    * @example
-   * const formattedBoolean = Neo3Parser.formatRpcArgument(true)
+   * const formattedBoolean = EpicChainParser.formatRpcArgument(true)
    * console.log(formattedBoolean)
    * // { type: 'Boolean', value: true }
    *
    * @example
-   * const formattedString = Neo3Parser.formatRpcArgument('unit test')
+   * const formattedString = EpicChainParser.formatRpcArgument('unit test')
    * console.log(formmatedString)
    * // { type: 'String', value: 'unit test' }
    *
    * @example
-   * const formattedByteArray = Neo3Parser.formatRpcArgument('756e69742074657374')
+   * const formattedByteArray = EpicChainParser.formatRpcArgument('756e69742074657374')
    * console.log(formattedByteArray)
    * // { type: 'ByteArray', value: '756e69742074657374' }
    *
    * @example
-   * const formattedHash160 = Neo3Parser.formatRpcArgument('0xd2a4cff31913016155e38e474a2c06d08be276cf', { type: 'Hash160' })
+   * const formattedHash160 = EpicChainParser.formatRpcArgument('0xbc8459660544656355b4f60861c22f544341e828', { type: 'Hash160' })
    * console.log(formattedHash160)
    * // { type: 'Hash160', value: 'd2a4cff31913016155e38e474a2c06d08be276cf' }
    *
    * @example
-   * const formattedArray = Neo3Parser.formatRpcArgument([1, 2, 3], { type: 'Array', generic: { type: 'Integer' } })
+   * const formattedArray = EpicChainParser.formatRpcArgument([1, 2, 3], { type: 'Array', generic: { type: 'Integer' } })
    * console.log(formattedArray)
    * // { type: 'Array', value: [{ type: 'Integer', value: '1' }, { type: 'Integer', value: '2' }, { type: 'Integer', value: '3' }] }
    *
    * @example
-   * const formattedMap = Neo3Parser.formatRpcArgument({ unit: 'test', neo3: 'parser' }, { type: 'Map', genericKey: { type: 'String' }, genericItem: { type: 'String' } })
+   * const formattedMap = EpicChainParser.formatRpcArgument({ unit: 'test', epicchain: 'parser' }, { type: 'Map', genericKey: { type: 'String' }, genericItem: { type: 'String' } })
    * console.log(formattedMap)
-   * // { type: 'Map', value: [{ key: { type: 'String', value: 'unit' }, value: { type: 'String', value: 'test' } }, { key: { type: 'String', value: 'neo3' }, value: { type: 'String', value: 'parser' } }] }
+   * // { type: 'Map', value: [{ key: { type: 'String', value: 'unit' }, value: { type: 'String', value: 'test' } }, { key: { type: 'String', value: 'epicchain' }, value: { type: 'String', value: 'parser' } }] }
    */
   formatRpcArgument: (arg: any, parseConfig?: ParseConfig) => Arg
 }
