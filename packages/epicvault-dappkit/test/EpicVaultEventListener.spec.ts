@@ -8,7 +8,7 @@ import {
   Neo3EventWithState,
   TypeChecker,
 } from '@epicchain/epicvault-dappkit-types'
-import { wallet } from '@cityofzion/neon-core'
+import { wallet } from '@epicchain/epicvault-core'
 import {
   wait,
   epicchainGoPath,
